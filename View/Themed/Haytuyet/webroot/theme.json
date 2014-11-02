@@ -1,0 +1,21 @@
+{
+	"name" : "Hay Tuyệt",
+	"description" : "Hay tuyệt . Com",
+	"screenshot" : "thumbnail.png",
+
+	"author" : "Kao",
+	"authorEmail" : "caolpgc60067@gmail.com",
+	"authorUrl" : "http://kenhlmht.com",
+
+	"menus" : [
+		"main",
+		"footer"
+	],
+
+	"regions" : [
+		"top",
+		"right",
+		"left",
+		"region1"
+	]
+}
