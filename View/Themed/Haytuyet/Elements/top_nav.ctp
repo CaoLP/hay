@@ -1,7 +1,5 @@
-
-
 <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <a href="../" class="navbar-brand"><?php echo Configure::read('Site.name'); ?></a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -12,21 +10,27 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <?php echo $this->Custom->menu('main', array('dropdown' => true)); ?>
-
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="http://builtwithbootstrap.com/" target="_blank"><i class="fa fa-cloud-upload"></i> Đăng bài</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download"><i class="fa fa-user"></i> Tề thiên <span class="caret"></span></a>
-                    <ul class="dropdown-menu" aria-labelledby="download">
-                        <li><a href="./bootstrap.min.css">bootstrap.min.css</a></li>
-                        <li><a href="./bootstrap.css">bootstrap.css</a></li>
-                        <li class="divider"></li>
-                        <li><a href="./variables.less">variables.less</a></li>
-                        <li><a href="./bootswatch.less">bootswatch.less</a></li>
-                    </ul>
-                </li>
+                <?php
+                if($this->Session->read('Auth.User')){
+                    ?>
+                    <li><a href="<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'user_post'))?>"><i class="fa fa-cloud-upload"></i> Đăng bài</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download"><i class="fa fa-user"></i> <?php echo $this->Session->read('Auth.User.name')?> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li><a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view',$this->Session->read('Auth.User.id')))?>">Thông tin</a></li>
+                            <li><a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'logout'))?>">Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                <?php
+                }else{
+                    ?>
+                    <li><a href="<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'user_post'))?>"><i class="fa fa-cloud-upload"></i> Đăng bài</a></li>
+                    <li><a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'login'))?>"><i class="fa fa-clock-o"></i> Đăng nhập</a></li>
+                <?php
+                }
+                ?>
             </ul>
-
         </div>
     </div>
 </div>

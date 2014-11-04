@@ -1,3 +1,4 @@
+<div class="col-md-7">
 <div class="nodes promoted">
     <?php
     if (count($nodes) == 0) {
@@ -43,3 +44,4 @@
 
     <div class="paging"><?php echo $this->Paginator->numbers(); ?></div>
 </div>
+    </div>

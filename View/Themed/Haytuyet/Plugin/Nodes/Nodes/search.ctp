@@ -1,3 +1,4 @@
+<div class="col-md-7">
 <?php
 
 $title_for_layout = __d('croogo', 'Search Results: %s', h($q));
@@ -30,3 +31,4 @@ $title_for_layout = __d('croogo', 'Search Results: %s', h($q));
 
 	<div class="paging"><?php echo $this->Paginator->numbers(); ?></div>
 </div>
+    </div>

@@ -1,3 +1,4 @@
+<div class="col-md-7">
 <div class="nodes">
 	<h2><?php echo $title_for_layout; ?></h2>
 
@@ -25,3 +26,4 @@
 
 	<div class="paging"><?php echo $this->Paginator->numbers(); ?></div>
 </div>
+   </div>

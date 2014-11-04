@@ -533,6 +533,7 @@ class UsersController extends UsersAppController {
  */
 	public function login() {
 		$this->set('title_for_layout', __d('croogo', 'Log in'));
+        $this->layout = 'login';
 		if ($this->request->is('post')) {
 			Croogo::dispatchEvent('Controller.Users.beforeLogin', $this);
 			if ($this->Auth->login()) {
@@ -545,7 +546,78 @@ class UsersController extends UsersAppController {
 			}
 		}
 	}
+    public function facebook_login(){
+        if(isset($this->request->data['User']['data'])){
+        $data = json_decode($this->request->data['User']['data'],true);
+            $temp = array(
+                'id' => '545611865571617',
+                'email' => 'caolpgc60067@gmail.com',
+                'first_name' => 'Tủ',
+                'gender' => 'female',
+                'last_name' => 'Thiên',
+                'link' => 'https://www.facebook.com/app_scoped_user_id/545611865571617/',
+                'locale' => 'vi_VN',
+                'name' => 'Thiên Tủ',
+                'timezone' => (int) 7,
+                'updated_time' => '2014-08-23T03:05:39+0000',
+                'verified' => true
+            );
+            if($this->User->checkUser($data['id'])==0){
+                $this->User->create();
+                unset($this->request->data['User']['data']);
+                $this->request->data['User']['role_id'] = 2; // Registered
+                $this->request->data['User']['activation_key'] = md5(uniqid());
+                $this->request->data['User']['status'] = 1;
+                $this->request->data['User']['username'] = htmlspecialchars($data['id']);
+                $this->request->data['User']['password'] = htmlspecialchars($data['id']);
+                $this->request->data['User']['verify_password'] = htmlspecialchars($data['id']);
+                if(isset($data['link']))
+                $this->request->data['User']['website'] = htmlspecialchars($data['link']);
+                if(isset($data['email']))
+                $this->request->data['User']['email'] = $data['email'];
+                if(isset($data['name']))
+                $this->request->data['User']['name'] = htmlspecialchars($data['name']);
+                $this->request->data['User']['image'] = 'http://graph.facebook.com/'.$data['id'].'/picture?width=50&height=35';
+                if ($this->User->save($this->request->data)) {
+                    Croogo::dispatchEvent('Controller.Users.registrationSuccessful', $this);
+                    $this->_sendEmail(
+                        array(Configure::read('Site.title'), $this->_getSenderEmail()),
+                        $this->request->data['User']['email'],
+                        __d('croogo', 'Thông tin tài khoản của bạn tại [%s] ', Configure::read('Site.title')),
+                        'Users.register',
+                        'Thông tin người dùng',
+                        $this->theme,
+                        array('user' => $this->request->data)
+                    );
 
+                    $this->Session->setFlash(__d('croogo', 'Tài khoản của bạn đã được tạo'), 'flash', array('class' => 'success'));
+                    $this->request->data = array();
+                    $this->request->data['User']['username'] = htmlspecialchars($data['id']);
+                    $this->request->data['User']['password'] = htmlspecialchars($data['id']);
+                    if ($this->Auth->login()) {
+                        Croogo::dispatchEvent('Controller.Users.loginSuccessful', $this);
+                    } else {
+                        Croogo::dispatchEvent('Controller.Users.loginFailure', $this);
+                        $this->Session->setFlash($this->Auth->authError, 'flash', array('class' => 'error'), 'auth');
+                    }
+
+                } else {
+                    Croogo::dispatchEvent('Controller.Users.registrationFailure', $this);
+                    $this->Session->setFlash(__d('croogo', 'Có lỗi khi tạo tài khoản.'), 'flash', array('class' => 'error'));
+                }
+            }else{
+                $this->request->data['User']['username'] = htmlspecialchars($data['id']);
+                $this->request->data['User']['password'] = htmlspecialchars($data['id']);
+                if ($this->Auth->login()) {
+                    Croogo::dispatchEvent('Controller.Users.loginSuccessful', $this);
+                } else {
+                    Croogo::dispatchEvent('Controller.Users.loginFailure', $this);
+                    $this->Session->setFlash($this->Auth->authError, 'flash', array('class' => 'error'), 'auth');
+                }
+            }
+        }
+        return $this->redirect('/');
+    }
 /**
  * Logout
  *
@@ -557,7 +629,7 @@ class UsersController extends UsersAppController {
 		$this->Session->setFlash(__d('croogo', 'Log out successful.'), 'flash', array('class' => 'success'));
 		$redirect = $this->Auth->logout();
 		Croogo::dispatchEvent('Controller.Users.afterLogout', $this);
-		return $this->redirect($redirect);
+		return $this->redirect('/');
 	}
 
 /**
@@ -586,7 +658,51 @@ class UsersController extends UsersAppController {
 	}
 
     public function top_view(){
+        //SELECT `ht_users`.`name` , sum(`ht_nodes`.`likes`) as `total` FROM `ht_nodes` inner join `ht_users` on `ht_users`.`id` = `ht_nodes`.`user_id`  WHERE MONTH(`ht_nodes`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`ht_nodes`.`created`) = YEAR(CURRENT_DATE) group by `ht_nodes`.`user_id`
+        $this->loadModel('Node');
+        $this->Node->Behaviors->enabled('Publishable',true);
+        $top_likes = $this->Node->find('all',array(
+            'fields' => 'sum(Node.likes) as total,User.name,User.id,User.image',
+            'conditions' => array(
+                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)'
+            ),
+            'joins'=>array(
+                array(
+                    'table'=>'users',
+                    'alias'=>'User',
+                    'type'=>'INNER',
+                    'conditions' =>array(
+                        'Node.user_id = User.id'
+                    )
+                )
+            ),
+            'recursive' => -1,
+            'limit'=>10,
+            'group' => 'Node.user_id'
 
+        ));
+        //SELECT `ht_users`.`name` , count(`ht_nodes`.`id`) as `total` FROM `ht_nodes` inner join `ht_users` on `ht_users`.`id` = `ht_nodes`.`user_id`  WHERE MONTH(`ht_nodes`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`ht_nodes`.`created`) = YEAR(CURRENT_DATE) group by `ht_nodes`.`user_id`
+        $top_posts = $this->Node->find('all',array(
+            'fields' => 'count(Node.id) as total,User.name,User.id,User.image',
+            'conditions' => array(
+                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)'
+            ),
+            'joins'=>array(
+                array(
+                    'table'=>'users',
+                    'alias'=>'User',
+                    'type'=>'INNER',
+                    'conditions' =>array(
+                        'Node.user_id = User.id'
+                    )
+                )
+            ),
+            'recursive' => -1,
+            'limit'=>10,
+            'group' => 'Node.user_id'
+
+        ));
+        $this->set(compact('top_likes','top_posts'));
     }
 
 

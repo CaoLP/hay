@@ -229,4 +229,12 @@ class User extends UsersAppModel {
 		return true;
 	}
 
+   public function checkUser($username){
+       $result = $this->find('count',array(
+           'conditions'=>array(
+               'User.username' => $username
+           )
+       ));
+       return $result;
+   }
 }

@@ -718,6 +718,14 @@ class NodesController extends NodesAppController
         ));
     }
 
+    public function update_view($id){
+        $this->Node->updateAll(
+            array('Node.counts' => 'Node.counts+1'),
+            array('Node.id' => $id)
+        );
+        die;
+    }
+
     /**
      * View Fallback
      *
@@ -749,5 +757,6 @@ class NodesController extends NodesAppController
         $roles = $Node->User->Role->find('list');
         $this->set(compact('parentTitle', 'roles'));
     }
+
 
 }

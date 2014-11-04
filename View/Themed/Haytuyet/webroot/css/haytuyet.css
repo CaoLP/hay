@@ -7,27 +7,47 @@ body a, body a:hover{
 .main{
     /*margin-top: 45px;*/
 }
-div.topUsers .item {
-    float: left;
-    margin-bottom: 8px;
-    width: 150px;
+.topUsers-list{
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 10px;
 }
-div.topUsers .item img {
+.topUsers-list .item {
+    margin-bottom: 8px;
+}
+.topUsers-list .item img {
     float: left;
     height: 50px;
     width: 50px;
     border-radius: 25px;
 }
-div.topUsers .item .info {
-    margin-left: 52px;
+.topUsers-list .item .info, .moreTop {
+font-size: 14px;
 }
-div.topUsers .name {
+.topUsers-list .name {
     display: block;
     margin-bottom: 3px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 80px;
+}
+
+.topUsers-list ul{
+
+}
+.topUsers-list li{
+    float: left;
+    height: 90px;
+    padding: 10px;
+    font-size: 10px;
+    line-height: 1.4;
+    margin-left: 15px;
+}
+@media (min-width: 992px){
+    .topUsers-list li{
+        /*width: 100%;*/
+    }
 }
 .info .views {
      line-height: 16px;
@@ -78,6 +98,8 @@ section{
  }
 section.ads{
     text-align: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 section.block-feature-cover li {
     padding: 0;
@@ -105,8 +127,15 @@ section.block-feature-cover .info-container h3 {
     margin-top: 5px;
 }
 @media (min-width: 992px){
+    .col-md-8 {
+        width: 65.666667%;
+    }
     .col-md-7 {
         width: 57.333333%;
+    }
+    .col-md-7.content {
+        width: 56.5753%;
+        margin-right: 10px;
     }
     .col-md-3 {
         padding-left: 0;
@@ -257,4 +286,68 @@ element.style {
     #view-iframe{
         display: block;
     }
+}
+@media (min-width: 990px)  {
+    .container-fluid {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 40px;
+        padding-right: 40px;
+        max-width: 1366px;
+    }
+}
+.fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] ,.fb-comments span:first-child{
+    width: 100% !important;
+}
+#target-comments{
+    overflow-y: scroll;
+    height: 470px;
+}
+.video-modal{
+
+}
+.video-modal .modal-header {
+     padding: 5px 10px 5px 10px;
+     border-bottom: 1px solid #e5e5e5;
+     min-height: 10.4px;
+ }
+.video-modal .modal-dialog{
+    width: 90%;
+}
+/*user*/
+.topUsers{
+    font-size: 22px;
+}
+.play-btn{
+    position: absolute;
+    height: 70px;
+    width: 100px;
+    background: url("../img/play_button.png") no-repeat;
+    background-size: 100%;
+    top: 30%;
+    left: 45%;
+
+}
+#view-video:hover .play-btn, .video-item:hover .play-btn{
+    background: url("../img/play_button_hover.png") no-repeat;
+    background-size: 100%;
+}
+.content{
+    background-color: #ffffff;
+}
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+}
+.signup-wrapper .header {
+    padding: 60px 0 0;
+    margin: 0 auto;
+}
+.signup-wrapper .content{
+    min-height: 768px;
+}
+.fixed-ads{
+    position: fixed;
+    top: 45px;
 }
