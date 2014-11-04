@@ -1,12 +1,16 @@
+<div class="node-view" id="count-view">
+    <span><i class="fa fa-eye"></i> <?php echo $this->Nodes->field('counts');?> </span><span><i class="fa fa-thumbs-up"></i> <?php echo $this->Nodes->field('likes');?> </span><span><i class="fa fa-comment"></i> <?php echo $this->Nodes->field('comments');?></span>
+</div>
 <p class="post-meta">
 <div class="fb-like" data-href="<?php echo $this->Html->url($this->Nodes->field('url'),true)?>" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
 </p>
+<div id="node-<?php echo $keys[$this->Nodes->field('id')]['next'];?>"></div>
 <div class="badge-item-vote-container post-afterbar-a in-list-view  ">
     <div class="vote">
         <ul class="btn-vote left pull-left">
-            <li><a class="badge-item-vote-up up " href="javascript:void(0);">Upvote</a></li>
-            <li><a class="badge-item-vote-down down " href="javascript:void(0);">Downvote</a></li>
-            <li><a class="comment badge-evt badge-item-comment" target="_blank" href="/gag/aqZyXAY#comment" data-evt="EntryAction,CommentButtonClicked,ListPage">Comment</a></li>
+            <li><a class="badge-item-vote-up up " href="#node-<?php echo $keys[$this->Nodes->field('id')]['prev'];?>" title="Lên trên"></a></li>
+            <li><a class="badge-item-vote-down down " href="#node-<?php echo $keys[$this->Nodes->field('id')]['next'];?>" title="Xuống dưới"></a></li>
+            <li><a class="comment badge-evt badge-item-comment" target="_blank" href="<?php echo $this->Html->url($this->Nodes->field('url')); ?>#comments" data-evt="EntryAction,CommentButtonClicked,ListPage">Comment</a></li>
         </ul>
     </div>
     <div class="share right pull-right">

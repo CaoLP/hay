@@ -4,6 +4,9 @@ body{
 body a, body a:hover{
     text-decoration: none;
 }
+.main{
+    /*margin-top: 45px;*/
+}
 div.topUsers .item {
     float: left;
     margin-bottom: 8px;
@@ -67,6 +70,8 @@ section.block-feature-cover ul {
     overflow: hidden;
     border-color: #fff;
     cursor: default;
+    width: 55px;
+    height: 55px;
 }
 section{
      background-color: #fff;
@@ -84,7 +89,7 @@ section.block-feature-cover .img-container {
     height: 105px;
     margin-bottom: 3px;
     background-color: #f4f4f4;
-    min-width: 300px;
+    /*min-width: 300px;*/
     text-align: center;
 }
 section.block-feature-cover .img-container img {
@@ -113,14 +118,32 @@ section.block-feature-cover .info-container h3 {
     background: #fff;
     padding: 5px 10px 5px 10px;
 }
-.nodes h2.title{
-    margin-top: 2px;
+.nodes .title{
+    /*margin-top: 2px;*/
+    /*position: absolute;*/
+    /*background: rgba(255, 255, 255, 0.46);*/
+    /*width: 90%;*/
+    margin-top: 0;
     position: absolute;
-    background: rgba(255, 255, 255, 0.46);
-    width: 90%;
+    width: 100%;
 }
-.nodes h2.title a{
-    color: #000000;
+.nodes .title h2{
+    margin-top: 0;
+    background: rgba(0, 0, 0, 0.76);
+    height: auto;
+    width: 90%;
+    padding-left: 10px;
+    margin-bottom: 0px;
+}
+.nodes .title h2 a{
+    color: #ffffff;
+    font-size: 20px;
+}
+.node-info {
+    background-color: rgba(0, 0, 0, 0.76);
+    width: 50%;
+    color: #fff;
+    padding-left: 10px;
 }
 .nodes .node-body img{
     width: 100%;
@@ -186,4 +209,52 @@ section.block-feature-cover .info-container h3 {
 }
 .post-afterbar-a .share.right li {
     margin: 0 0 0 10px;
+}
+
+.node-block{
+    margin-bottom: 10px;
+    overflow:hidden;
+}
+.video-img{
+    width: 100%;
+}
+.view-title{
+
+}
+.navbar-inverse {
+    background-color: #3b5999;
+    border-color: #133784;
+}
+.navbar-inverse .dropdown-menu {
+    background-color: #3b5999;
+}
+element.style {
+}
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+.video-container iframe, .video-container object, .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#view-video{
+    display: block;
+}
+#view-iframe{
+    display: none;
+}
+@media (max-width: 990px)  {
+    #view-video{
+        display: none;
+    }
+    #view-iframe{
+        display: block;
+    }
 }

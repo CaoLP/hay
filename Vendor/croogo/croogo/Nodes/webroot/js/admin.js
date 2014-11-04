@@ -95,6 +95,8 @@ Nodes.videoImage = function () {
         }
         if (video_id)
             Node.genImagecb(video_id);
+
+        $(this).val(video_id);
     });
     $('#youtube_img').on('click', '.youtube_radio', function () {
             var val = $(this).data('value'); // retrieve the value

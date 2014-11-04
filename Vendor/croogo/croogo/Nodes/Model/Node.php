@@ -164,11 +164,7 @@ class Node extends NodesAppModel
             'order' => '',
         ),
     );
-    public $hasOne = array(
-        'Count' => array(
-            'className' => 'Nodes.Count',
-        )
-    );
+
     public $findMethods = array(
         'promoted' => true,
         'viewBySlug' => true,
@@ -482,7 +478,6 @@ class Node extends NodesAppModel
                     'Vocabulary',
                 ),
                 'User',
-                'Count',
             );
             $_defaultConditions = array(
                 $this->escapeField('status') => $this->status(),
@@ -542,7 +537,6 @@ class Node extends NodesAppModel
                     'Vocabulary',
                 ),
                 'User',
-                'Count',
             ),
             'cache' => array(
                 'name' => 'node_' . $args['roleId'] . '_' . $args['id'],
@@ -592,7 +586,6 @@ class Node extends NodesAppModel
                     'Vocabulary',
                 ),
                 'User',
-                'Count',
             ),
             'cache' => array(
                 'name' => 'node_' . $args['roleId'] . '_' . $args['type'] . '_' . $args['slug'],
@@ -659,7 +652,6 @@ class Node extends NodesAppModel
                     'Vocabulary',
                 ),
                 'User',
-                'Count',
             ),
         );
         if (isset($typeAlias)) {
@@ -691,4 +683,18 @@ class Node extends NodesAppModel
         }
     }
 
+    public function findHotNodes($limit){
+        $this->belongsTo = array();
+        $this->hasOne = array();
+        $result = $this->find('all',array(
+            'conditions'=>array(
+                'Node.type <>'=>'page'
+            ),
+            'order'=>array(
+                'Node.counts'=>'DESC'
+            ),
+            'limit'=>$limit
+        ));
+        return $result;
+    }
 }

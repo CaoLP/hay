@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $title_for_layout; ?> &raquo; <?php echo Configure::read('Site.title'); ?></title>
     <?php
-    echo $this->Meta->meta();
-    echo $this->Layout->feed();
     echo $this->Html->css(array(
         'bootstrap.min',
         'bootswatch.min',
@@ -25,40 +23,18 @@
         js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&appId=664600673634236&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-<?php echo $this->element('top_nav')?>
-<div class="container main">
-<div class="row">
-    <div class="col-md-2">
-        <?php echo $this->Regions->blocks('left'); ?>
-    </div>
-    <div class="col-md-7">
-        <?php
-        echo $this->Layout->sessionFlash();
-        echo $content_for_layout;
-        ?>
-    </div>
-    <div class="col-md-3">
-        <?php echo $this->Regions->blocks('right'); ?>
-    </div>
-</div>
-</div>
 
 
-<script type="text/javascript">
-var clipHot = '<?php echo $this->Html->url(array(
-    'plugin'=>'nodes','controller'=>'nodes','action'=>'hot_clip'
-))?>';
-var topView = '<?php echo $this->Html->url(array(
-    'plugin'=>'users','controller'=>'users','action'=>'top_view'
-))?>';
-</script>
+<?php
+echo $content_for_layout;
+?>
+
 <?php
 echo $this->Layout->js();
 echo $this->Html->script(array(
     '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
     'bootstrap.min',
     'bootswatch',
-    'haytuyet',
 ));
 echo $this->fetch('script');
 echo $this->Blocks->get('script');

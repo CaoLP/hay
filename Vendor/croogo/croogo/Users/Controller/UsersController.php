@@ -585,4 +585,9 @@ class UsersController extends UsersAppController {
 		return 'croogo@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 	}
 
+    public function top_view(){
+
+    }
+
+
 }

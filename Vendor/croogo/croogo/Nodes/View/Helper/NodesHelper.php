@@ -236,7 +236,7 @@ class NodesHelper extends AppHelper {
 		$options = array_merge($_options, $options);
 
 		$output = $this->Layout->hook('beforeNodeMoreInfo');
-		$output .= $this->_View->element($options['element']);
+		$output .= $this->_View->element($options['element'],$options);
 		$output .= $this->Layout->hook('afterNodeMoreInfo');
 		return $output;
 	}
