@@ -19,24 +19,27 @@
 <body>
 <div id="fb-root"></div>
 <script>
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
-            appId      : '462179947218302',
-            xfbml      : true,
-            version    : 'v2.2'
+            appId: '462179947218302',
+            xfbml: true,
+            version: 'v2.2'
         });
     };
 
-    (function(d, s, id){
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<?php echo $this->element('top_nav')?>
+<?php echo $this->element('top_nav') ?>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-md-12">
@@ -45,25 +48,30 @@
             ?>
         </div>
     </div>
-<div class="row">
-    <div class="col-md-2">
-        <?php echo $this->Regions->blocks('left'); ?>
-    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <?php echo $this->Regions->blocks('left'); ?>
+        </div>
         <?php
         echo $content_for_layout;
         ?>
-    <div class="col-md-3">
-        <?php echo $this->Regions->blocks('right'); ?>
+        <div class="col-md-3">
+            <?php echo $this->Regions->blocks('right'); ?>
+        </div>
     </div>
 </div>
-</div>
+<footer class="" role="contentinfo">
 
-
+</footer>
+<?php
+if ($this->Session->read('Auth.User'))
+    echo $this->element('user_post_form');
+?>
 <script type="text/javascript">
-var clipHot = '<?php echo $this->Html->url(array(
+    var clipHot = '<?php echo $this->Html->url(array(
     'plugin'=>'nodes','controller'=>'nodes','action'=>'hot_clip'
 ))?>';
-var topView = '<?php echo $this->Html->url(array(
+    var topView = '<?php echo $this->Html->url(array(
     'plugin'=>'users','controller'=>'users','action'=>'top_view'
 ))?>';
 </script>
