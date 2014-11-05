@@ -25,7 +25,7 @@ $(document).ready(function () {
         });
     if (typeof updateView != 'undefined')
         $.ajax({
-            url: updateView + '/' + pid
+            url: updateView + '/' + pid + '?url=' + link
         });
     $('.video-modal').on('shown.bs.modal', function () {
         $('#video-iframe').attr('src', videoLink);

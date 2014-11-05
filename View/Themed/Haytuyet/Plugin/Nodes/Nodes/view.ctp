@@ -6,6 +6,7 @@
     var videoLink = 'http://www.youtube.com/embed/<?php echo $this->Nodes->field('CustomFields.youtube_clip'); ?>?autoplay=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&nologo=1&vq=large&autoplay=0&amp;ps=docs';
     var updateView = '<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'update_view'));?>';
     var pid = '<?php echo $this->Nodes->field('id');?>';
+    var link = '<?php echo urlencode($this->Html->url($this->Nodes->field('url'),true));?>';
 </script>
 <div id="node-<?php echo $this->Nodes->field('id'); ?>"
      class="node node-type-<?php echo $this->Nodes->field('type'); ?> node-block">

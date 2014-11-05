@@ -26,7 +26,7 @@
                                 class="caret"></span></a>
                         <ul class="dropdown-menu" aria-labelledby="download">
                             <li>
-                                <a href="<?php echo $this->Html->url(array('plugin' => 'users', 'controller' => 'users', 'action' => 'view', $this->Session->read('Auth.User.id'))) ?>">Thông
+                                <a href="<?php echo $this->Html->url(array('plugin' => 'users', 'controller' => 'users', 'action' => 'view', 'username'=>$this->Session->read('Auth.User.username'))) ?>">Thông
                                     tin</a></li>
                             <li>
                                 <a href="<?php echo $this->Html->url(array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout')) ?>">Đăng

@@ -91,8 +91,11 @@ class Node extends NodesAppModel
             ),
         ),
         'Search.Searchable',
+        'Captcha' => array(
+            'field' => array('security_code'),
+            'error' => 'Mã bảo mật không đúng'
+        )
     );
-
     /**
      * Node type
      *

@@ -27,6 +27,7 @@ CroogoRouter::connect('/search/*', array(
 
 // Content types
 CroogoRouter::contentType('blog');
+CroogoRouter::contentType('clip');
 CroogoRouter::contentType('node');
 if (Configure::read('Croogo.installed')) {
 	CroogoRouter::routableContentTypes();

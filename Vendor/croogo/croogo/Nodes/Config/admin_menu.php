@@ -21,6 +21,16 @@ CroogoNav::add('sidebar', 'content', array(
 			),
 			'weight' => 10,
 		),
+        'user_post' => array(
+            'title' => __d('croogo', 'Posts of Users'),
+            'url' => array(
+                'admin' => true,
+                'plugin' => 'nodes',
+                'controller' => 'nodes',
+                'action' => 'users_posts',
+            ),
+            'weight' => 10,
+        ),
 		'create' => array(
 			'title' => __d('croogo', 'Create'),
 			'url' => array(

@@ -363,3 +363,9 @@ element.style {
     position: fixed;
     top: 45px;
 }
+.form-error {
+    border-color: red;
+}
+.error-message {
+    color: red;
+}

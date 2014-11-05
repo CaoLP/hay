@@ -662,9 +662,10 @@ class UsersController extends UsersAppController {
         $this->loadModel('Node');
         $this->Node->Behaviors->enabled('Publishable',true);
         $top_likes = $this->Node->find('all',array(
-            'fields' => 'sum(Node.likes) as total,User.name,User.id,User.image',
+            'fields' => 'sum(Node.likes) as total,User.name,User.id,User.image,User.username',
             'conditions' => array(
-                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)'
+                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)',
+                'Node.status <>'=>'0'
             ),
             'joins'=>array(
                 array(
@@ -683,9 +684,10 @@ class UsersController extends UsersAppController {
         ));
         //SELECT `ht_users`.`name` , count(`ht_nodes`.`id`) as `total` FROM `ht_nodes` inner join `ht_users` on `ht_users`.`id` = `ht_nodes`.`user_id`  WHERE MONTH(`ht_nodes`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`ht_nodes`.`created`) = YEAR(CURRENT_DATE) group by `ht_nodes`.`user_id`
         $top_posts = $this->Node->find('all',array(
-            'fields' => 'count(Node.id) as total,User.name,User.id,User.image',
+            'fields' => 'count(Node.id) as total,User.name,User.id,User.image,User.username',
             'conditions' => array(
-                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)'
+                'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)',
+                'Node.status <>'=>'0'
             ),
             'joins'=>array(
                 array(

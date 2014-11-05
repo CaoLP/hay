@@ -8,7 +8,7 @@
                 foreach ($top_likes as $user) {
                     ?>
                     <li class="item">
-                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view',$user['User']['id']));?>" title="<?php echo $user['User']['name'];?>">
+                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view','username'=>$user['User']['username']));?>" title="<?php echo $user['User']['name'];?>">
                             <div class="row">
                                 <img src="<?php echo !empty($user['User']['image'])?$user['User']['image']:'/img/noimage.gif';?>">
                             </div>
@@ -47,13 +47,13 @@
                 foreach ($top_posts as $user) {
                     ?>
                     <li class="item">
-                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view',$user['User']['id']));?>" title="<?php echo $user['User']['name'];?>">
+                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view','username'=>$user['User']['username']));?>" title="<?php echo $user['User']['name'];?>">
                             <div class="row">
                                 <img src="<?php echo !empty($user['User']['image'])?$user['User']['image']:'/img/noimage.gif';?>">
                             </div>
                             <div class="row">
                                 <div class="info">
-                                    <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-thumbs-up"></i> <?php
+                                    <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-bookmark"></i> <?php
                                         if($user[0]['total'] >= 1000){
                                             echo ($user[0]['total']/1000);
                                             echo 'k';

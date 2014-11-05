@@ -42,6 +42,9 @@ class NodesController extends NodesAppController
                 'filterEmpty' => true,
             ),
         ),
+        'Captcha' => array(
+            'field' => 'security_code'
+        )
     );
 
     /**
@@ -118,7 +121,41 @@ class NodesController extends NodesAppController
 
         $alias = $this->modelClass;
         $this->paginate[$alias]['order'] = $Node->escapeField('created') . ' DESC';
-        $this->paginate[$alias]['conditions'] = array();
+        $this->paginate[$alias]['conditions'] = array(
+            'User.role_id' => '1'
+        );
+        $this->paginate[$alias]['contain'] = array('User');
+
+        $types = $Node->Taxonomy->Vocabulary->Type->find('all');
+        $typeAliases = Hash::extract($types, '{n}.Type.alias');
+        $this->paginate[$alias]['conditions'][$Node->escapeField('type')] = $typeAliases;
+
+        $criteria = $Node->parseCriteria($this->Prg->parsedParams());
+        $nodes = $this->paginate($criteria);
+        $nodeTypes = $Node->Taxonomy->Vocabulary->Type->find('list', array(
+            'fields' => array('Type.alias', 'Type.title')
+        ));
+        $this->set(compact('nodes', 'types', 'typeAliases', 'nodeTypes'));
+
+        if (isset($this->request->params['named']['links']) || isset($this->request->query['chooser'])) {
+            $this->layout = 'admin_popup';
+            $this->render('admin_chooser');
+        }
+    }
+
+    public function admin_users_posts()
+    {
+        $this->set('title_for_layout', __d('croogo', 'Content'));
+        $this->Prg->commonProcess();
+
+        $Node = $this->{$this->modelClass};
+        $Node->recursive = 0;
+
+        $alias = $this->modelClass;
+        $this->paginate[$alias]['order'] = $Node->escapeField('created') . ' DESC';
+        $this->paginate[$alias]['conditions'] = array(
+            'User.role_id <>' => '1'
+        );
         $this->paginate[$alias]['contain'] = array('User');
 
         $types = $Node->Taxonomy->Vocabulary->Type->find('all');
@@ -718,38 +755,140 @@ class NodesController extends NodesAppController
         ));
     }
 
-    public function update_view($id)
+    public function update_view($id = null)
     {
-        $this->Node->updateAll(
-            array('Node.counts' => 'Node.counts+1'),
-            array('Node.id' => $id)
-        );
+        if ($id != null) {
+            $this->Node->updateAll(
+                array('Node.counts' => 'Node.counts+1'),
+                array('Node.id' => $id)
+            );
+        }
+        if ($id != null) {
+            if (isset($this->request->query['url'])) {
+                $url = urldecode($this->request->query['url']);
+                $content = file_get_contents('http://api.facebook.com/restserver.php?method=links.getStats&format=json&urls=' . $url);
+                $json_content = json_decode($content, true);
+                if (Cache::read('fb_post' . $id, 'long')) {
+                    $old_content = Cache::read('fb_post' . $id, 'long');
+                    if ($content != $old_content) {
+                        if (isset($json_content[0]['like_count'])) {
+                            $this->Node->updateAll(
+                                array('Node.likes' => $json_content[0]['like_count'], 'Node.comments' => $json_content[0]['comment_count'], 'Node.shares' => $json_content[0]['share_count']),
+                                array('Node.id' => $id)
+                            );
+                        }
+                        Cache::write('fb_post' . $id, $content, 'long');
+                    } else {
+
+                    }
+                } else {
+                    if (isset($json_content[0]['like_count'])) {
+                        $this->Node->updateAll(
+                            array('Node.likes' => $json_content[0]['like_count'], 'Node.comments' => $json_content[0]['comment_count'], 'Node.shares' => $json_content[0]['share_count']),
+                            array('Node.id' => $id)
+                        );
+                    }
+                    Cache::write('fb_post' . $id, $content, 'long');
+                }
+            }
+        }
         die;
     }
 
     public function user_post()
     {
-        if (!empty($this->request->data['Node']['image']['name'])) {
-            if ($this->request->data['Node']['image']['size'] < 1000000) {
-                $file = $this->request->data['products']['upload']; //put the data into a var for easy use
+        $this->helpers[] = 'Captcha';
+        $cont = true;
+        if ($this->request->is('post')) {
+            $title = $this->request->data['Node']['title'];
+            $slug = $this->make_title_furl($this->request->data['Node']['title']);
+            $this->Node->setCaptcha('security_code', $this->Captcha->getCode('Node.security_code'));
+            $this->Node->set(array('Node' => array(
+                'security_code' => $this->request->data['Node']['security_code'],
+                'slug' => $slug,
+            )));
+            if ($this->Node->validates()) {
+                $img = '';
+                $youtube_clip = '';
+                if (isset($this->request->data['Node']['youtube_clip']))
+                    $youtube_clip = $this->youtube_id_from_url($this->request->data['Node']['youtube_clip']);
+                if (!empty($youtube_clip)) {
+                    if (empty($this->request->data['Node']['link_image'])) {
+                        if (isset($this->request->data['Node']['image']['name']) && !empty($this->request->data['Node']['image']['name'])) {
+                            if ($this->request->data['Node']['image']['size'] < 500000) {
+                                $file = $this->request->data['Node']['image']; //put the data into a var for easy use
 
-                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-                $arr_ext = array('jpg', 'jpeg', 'gif'); //set allowed extensions
+                                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+                                $arr_ext = array('png', 'jpg', 'jpeg', 'gif'); //set allowed extensions
 
-                //only process if the extension is valid
-                if (in_array($ext, $arr_ext)) {
-                    //do the actual uploading of the file. First arg is the tmp name, second arg is
-                    //where we are putting it
-                    move_uploaded_file($file['tmp_name'], WWW_ROOT . '/img/uploads/' . uniqid());
-                    //prepare the filename for database entry
-                    $this->request->data['products']['product_image'] = $file['name'];
+                                //only process if the extension is valid
+                                if (in_array($ext, $arr_ext)) {
+                                    //do the actual uploading of the file. First arg is the tmp name, second arg is
+                                    //where we are putting it
+                                    $tempName = uniqid() . '.' . $ext;
+                                    move_uploaded_file($file['tmp_name'], WWW_ROOT . '/img/uploads/' . $tempName);
+                                    //prepare the filename for database entry
+                                    $img = '/img/uploads/' . $tempName;
+                                }
+                            } else {
+                                $this->Session->setFlash(__d('croogo', 'Kích thước ảnh phải nhỏ hơn 500kb'), 'message', array('class' => 'alert-warning'));
+                                $cont = false;
+                            }
+                        }
+                    } else {
+                        $img = $this->request->data['Node']['link_image'];
+                    }
+                    if ($cont) {
+
+
+                        if (empty($img) && !empty($youtube_clip))
+                            $img = 'http://img.youtube.com/vi/' . $youtube_clip . '/sddefault.jpg';
+                        $temp_data = array(
+                            'Node' => array(
+                                'title' => $title,
+                                'slug' => $slug,
+                                'excerpt' => $title,
+                                'body' => '',
+                                'user_id' => $this->Session->read('Auth.User.id'),
+                                'type' => 'clip',
+                                'comment_status' => '2',
+                                'status' => '0',
+                                'promote' => '0',
+                            ),
+                            'Meta' => array(
+                                array(
+                                    'key' => 'image',
+                                    'value' => $img
+                                ),
+                                array(
+                                    'key' => 'youtube_clip',
+                                    'value' => $youtube_clip
+                                ),
+                            )
+                        );
+                        $Node = $this->{$this->modelClass};
+                        if ($Node->saveNode($temp_data, 'clip')) {
+                            Croogo::dispatchEvent('Controller.Nodes.afterAdd', $this, array('data' => $temp_data));
+                            $this->Session->setFlash(__d('croogo', 'Bài đã được đăng và đang chờ duyệt'), 'message', array('class' => 'alert-success'));
+                            $this->view = 'post_success';
+                        } else {
+                            $this->Session->setFlash(__d('croogo', 'Không thể lưu bài'), 'message', array('class' => 'alert-warning'));
+                        }
+                    }
+                } else {
+                    $this->Session->setFlash(__d('croogo', 'Clip không được bỏ trống'), 'message', array('class' => 'alert-warning'));
                 }
-                return $this->redirect('/');
             } else {
-                $this->Session->setFlash(__d('croogo', 'Kích thước ảnh phải nhỏ hơn 1mb'), 'flash', array('class' => 'error'));
-                return $this->redirect('/');
+                $this->Session->setFlash(__d('croogo', 'Mã bảo mật sai hoặc bài này đã có người đăng rồi !!!'), 'message', array('class' => 'alert-warning'));
             }
         }
+    }
+
+    function  captcha()
+    {
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        $this->Captcha->create();
     }
 
     /**
@@ -784,5 +923,168 @@ class NodesController extends NodesAppController
         $this->set(compact('parentTitle', 'roles'));
     }
 
+    /**
+     * get youtube video ID from URL
+     *
+     * @param string $url
+     *
+     * @return string Youtube video id or FALSE if none found.
+     */
+    public function youtube_id_from_url($url)
+    {
+        $pattern =
+            '%^# Match any youtube URL
+            (?:https?://)?  # Optional scheme. Either http or https
+            (?:www\.)?      # Optional www subdomain
+            (?:             # Group host alternatives
+              youtu\.be/    # Either youtu.be,
+            | youtube\.com  # or youtube.com
+              (?:           # Group path alternatives
+                /embed/     # Either /embed/
+              | /v/         # or /v/
+              | /watch\?v=  # or /watch\?v=
+              )             # End path alternatives.
+            )               # End host alternatives.
+            ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+            $%x';
+        $result = preg_match($pattern, $url, $matches);
+        if (false !== $result) {
+            if (isset($matches[1]))
+                return $matches[1];
+            else return false;
+        }
+
+        return false;
+    }
+
+    public function make_title_furl($text)
+    {
+        $text = preg_replace('/ä|æ|ǽ/', 'ae', $text);
+        $text = preg_replace('/ö|œ/', 'oe', $text);
+        $text = preg_replace('/ü/', 'ue', $text);
+        $text = preg_replace('/Ä/', 'Ae', $text);
+        $text = preg_replace('/Ü/', 'Ue', $text);
+        $text = preg_replace('/Ö/', 'Oe', $text);
+        $text = preg_replace('/À|Á|Â|Ã|Ä|Å|Ǻ|Ā|Ă|Ą|Ǎ|À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/', 'A', $text);
+        $text = preg_replace('/à|á|â|ã|å|ǻ|ā|ă|ą|ǎ|ª|à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/', 'a', $text);
+        $text = preg_replace('/Ç|Ć|Ĉ|Ċ|Č/', 'C', $text);
+        $text = preg_replace('/ç|ć|ĉ|ċ|č/', 'c', $text);
+        $text = preg_replace('/Ð|Ď|Đ/', 'D', $text);
+        $text = preg_replace('/ð|ď|đ/', 'd', $text);
+        $text = preg_replace('/È|É|Ê|Ë|Ē|Ĕ|Ė|Ę|Ě|È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/', 'E', $text);
+        $text = preg_replace('/è|é|ê|ë|ē|ĕ|ė|ę|ě|è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/', 'e', $text);
+        $text = preg_replace('/Ĝ|Ğ|Ġ|Ģ/', 'G', $text);
+        $text = preg_replace('/ĝ|ğ|ġ|ģ/', 'g', $text);
+        $text = preg_replace('/Ĥ|Ħ/', 'H', $text);
+        $text = preg_replace('/ĥ|ħ/', 'h', $text);
+        $text = preg_replace('/Ì|Í|Î|Ï|Ĩ|Ī|Ĭ|Ǐ|Į|İ|Ì|Í|Ị|Ỉ|Ĩ/', 'I', $text);
+        $text = preg_replace('/ì|í|î|ï|ĩ|ī|ĭ|ǐ|į|ı|ì|í|ị|ỉ|ĩ/', 'i', $text);
+        $text = preg_replace('/Ĵ/', 'J', $text);
+        $text = preg_replace('/ĵ/', 'j', $text);
+        $text = preg_replace('/Ķ/', 'K', $text);
+        $text = preg_replace('/ķ/', 'k', $text);
+        $text = preg_replace('/Ĺ|Ļ|Ľ|Ŀ|Ł/', 'L', $text);
+        $text = preg_replace('/ĺ|ļ|ľ|ŀ|ł/', 'l', $text);
+        $text = preg_replace('/Ñ|Ń|Ņ|Ň/', 'N', $text);
+        $text = preg_replace('/ñ|ń|ņ|ň|ŉ/', 'n', $text);
+        $text = preg_replace('/Ò|Ó|Ô|Õ|Ō|Ŏ|Ǒ|Ő|Ơ|Ø|Ǿ|Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/', 'O', $text);
+        $text = preg_replace('/ò|ó|ô|õ|ō|ŏ|ǒ|ő|ơ|ø|ǿ|º|ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/', 'o', $text);
+        $text = preg_replace('/Ŕ|Ŗ|Ř/', 'R', $text);
+        $text = preg_replace('/ŕ|ŗ|ř/', 'r', $text);
+        $text = preg_replace('/Ś|Ŝ|Ş|Š/', 'S', $text);
+        $text = preg_replace('/ś|ŝ|ş|š|ſ/', 's', $text);
+        $text = preg_replace('/Ţ|Ť|Ŧ/', 'T', $text);
+        $text = preg_replace('/ţ|ť|ŧ/', 't', $text);
+        $text = preg_replace('/Ù|Ú|Û|Ũ|Ū|Ŭ|Ů|Ű|Ų|Ư|Ǔ|Ǖ|Ǘ|Ǚ|Ǜ|Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/', 'U', $text);
+        $text = preg_replace('/ù|ú|û|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ|ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/', 'u', $text);
+        $text = preg_replace('/Ý|Ÿ|Ŷ|Ỳ|Ý|Ỵ|Ỷ|Ỹ/', 'Y', $text);
+        $text = preg_replace('/ý|ÿ|ŷ|ỳ|ý|ỵ|ỷ|ỹ/', 'y', $text);
+        $text = preg_replace('/Ŵ/', 'W', $text);
+        $text = preg_replace('/ŵ/', 'w', $text);
+        $text = preg_replace('/Ź|Ż|Ž/', 'Z', $text);
+        $text = preg_replace('/ź|ż|ž/', 'z', $text);
+        $text = preg_replace('/Æ|Ǽ/', 'AE', $text);
+        $text = preg_replace('/ß/', 'ss', $text);
+        $text = preg_replace('/Ĳ/', 'IJ', $text);
+        $text = preg_replace('/ĳ/', 'ij', $text);
+        $text = preg_replace('/Œ/', 'OE', $text);
+        $text = preg_replace('/ƒ/', 'f', $text);
+        // Cyrillic Letters
+        $text = preg_replace('/А/', 'A', $text);
+        $text = preg_replace('/Б/', 'B', $text);
+        $text = preg_replace('/В/', 'V', $text);
+        $text = preg_replace('/Г/', 'G', $text);
+        $text = preg_replace('/Д/', 'D', $text);
+        $text = preg_replace('/Е/', 'E', $text);
+        $text = preg_replace('/Ё/', 'YO', $text);
+        $text = preg_replace('/Ж/', 'ZH', $text);
+        $text = preg_replace('/З/', 'Z', $text);
+        $text = preg_replace('/И/', 'I', $text);
+        $text = preg_replace('/Й/', 'Y', $text);
+        $text = preg_replace('/К/', 'K', $text);
+        $text = preg_replace('/Л/', 'L', $text);
+        $text = preg_replace('/М/', 'M', $text);
+        $text = preg_replace('/Н/', 'N', $text);
+        $text = preg_replace('/О/', 'O', $text);
+        $text = preg_replace('/П/', 'P', $text);
+        $text = preg_replace('/Р/', 'R', $text);
+        $text = preg_replace('/С/', 'S', $text);
+        $text = preg_replace('/Т/', 'T', $text);
+        $text = preg_replace('/У/', 'U', $text);
+        $text = preg_replace('/Ф/', 'F', $text);
+        $text = preg_replace('/Х/', 'H', $text);
+        $text = preg_replace('/Ц/', 'TS', $text);
+        $text = preg_replace('/Ч/', 'CH', $text);
+        $text = preg_replace('/Ш/', 'SH', $text);
+        $text = preg_replace('/Щ/', 'SH', $text);
+        $text = preg_replace('/Ъ/', '', $text);
+        $text = preg_replace('/Ы/', 'Y', $text);
+        $text = preg_replace('/Ь/', '', $text);
+        $text = preg_replace('/Э/', 'E', $text);
+        $text = preg_replace('/Ю/', 'YU', $text);
+        $text = preg_replace('/Я/', 'YA', $text);
+        $text = preg_replace('/а/', 'a', $text);
+        $text = preg_replace('/б/', 'b', $text);
+        $text = preg_replace('/в/', 'v', $text);
+        $text = preg_replace('/г/', 'g', $text);
+        $text = preg_replace('/д/', 'd', $text);
+        $text = preg_replace('/е/', 'e', $text);
+        $text = preg_replace('/ё/', 'yo', $text);
+        $text = preg_replace('/ж/', 'zh', $text);
+        $text = preg_replace('/з/', 'z', $text);
+        $text = preg_replace('/и/', 'i', $text);
+        $text = preg_replace('/й/', 'y', $text);
+        $text = preg_replace('/к/', 'k', $text);
+        $text = preg_replace('/л/', 'l', $text);
+        $text = preg_replace('/м/', 'm', $text);
+        $text = preg_replace('/н/', 'n', $text);
+        $text = preg_replace('/о/', 'o', $text);
+        $text = preg_replace('/п/', 'p', $text);
+        $text = preg_replace('/р/', 'r', $text);
+        $text = preg_replace('/с/', 's', $text);
+        $text = preg_replace('/т/', 't', $text);
+        $text = preg_replace('/у/', 'u', $text);
+        $text = preg_replace('/ф/', 'f', $text);
+        $text = preg_replace('/х/', 'h', $text);
+        $text = preg_replace('/ц/', 'ts', $text);
+        $text = preg_replace('/ч/', 'ch', $text);
+        $text = preg_replace('/ш/', 'sh', $text);
+        $text = preg_replace('/щ/', 'sh', $text);
+        $text = preg_replace('/ъ/', '', $text);
+        $text = preg_replace('/ы/', 'y', $text);
+        $text = preg_replace('/ь/', '', $text);
+        $text = preg_replace('/э/', 'e', $text);
+        $text = preg_replace('/ю/', 'yu', $text);
+        $text = preg_replace('/я/', 'ya', $text);
+
+        $text = preg_replace('/\s+/', '-', $text);
+        $text = preg_replace('/[^a-zA-Z0-9\-]/', '', $text);
+        $text = preg_replace('/\-{2,}/', '-', $text);
+        $text = preg_replace('/\-$/', '', $text);
+        $text = preg_replace('/^\-/', '', $text);
+        $text = strtolower($text);
+
+        return $text;
+    }
 
 }
