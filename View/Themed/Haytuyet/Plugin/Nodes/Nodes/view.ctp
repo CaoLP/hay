@@ -23,7 +23,7 @@
 
         </div>
         <a href="#" id="view-video" data-toggle="modal" data-target=".video-modal">
-            <div class="play-btn">
+            <div class="play-btn" style="display: none;">
             </div>
             <img class="img-responsive video-img"
                  src="<?php echo $this->Nodes->field('CustomFields.image'); ?>"></a>

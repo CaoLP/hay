@@ -346,6 +346,7 @@ element.style {
 }
 .content{
     background-color: #ffffff;
+    overflow: hidden;
 }
 .avatar {
     width: 35px;
