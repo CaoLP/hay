@@ -665,7 +665,7 @@ class UsersController extends UsersAppController {
             'fields' => 'sum(Node.likes) as total,User.name,User.id,User.image,User.username',
             'conditions' => array(
                 'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)',
-                'Node.status <>'=>'0'
+                'Node.status'=>'1'
             ),
             'joins'=>array(
                 array(
@@ -687,7 +687,7 @@ class UsersController extends UsersAppController {
             'fields' => 'count(Node.id) as total,User.name,User.id,User.image,User.username',
             'conditions' => array(
                 'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)',
-                'Node.status <>'=>'0'
+                'Node.status'=>'1'
             ),
             'joins'=>array(
                 array(

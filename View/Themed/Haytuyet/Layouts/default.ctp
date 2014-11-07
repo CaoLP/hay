@@ -6,6 +6,7 @@
     <title><?php echo $title_for_layout; ?> &raquo; <?php echo Configure::read('Site.title'); ?></title>
     <?php
     echo $this->Meta->meta();
+    echo $this->element('meta');
     echo $this->Layout->feed();
     echo $this->Html->css(array(
         'bootstrap.min',
@@ -81,6 +82,7 @@ echo $this->Html->script(array(
     '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
     'bootstrap.min',
     'bootswatch',
+    '//www.youtube.com/iframe_api',
     'haytuyet',
 ));
 echo $this->fetch('script');

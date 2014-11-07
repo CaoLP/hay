@@ -700,6 +700,7 @@ class NodesController extends NodesAppController
      */
     public function view($id = null)
     {
+        $node_id = $id;
         $Node = $this->{$this->modelClass};
         if (isset($this->request->params['named']['slug']) && isset($this->request->params['named']['type'])) {
             $Node->type = $this->request->params['named']['type'];
@@ -717,6 +718,7 @@ class NodesController extends NodesAppController
                 'type' => $this->request->params['named']['type'],
                 'roleId' => $this->Croogo->roleId(),
             ));
+            $node_id = $node['Node']['id'];
         } elseif ($id == null) {
             $this->Session->setFlash(__d('croogo', 'Invalid content'), 'flash', array('class' => 'error'));
             return $this->redirect('/');
@@ -753,6 +755,7 @@ class NodesController extends NodesAppController
             'view_' . $node[$Node->alias][$Node->primaryKey],
             'view_' . $type['Type']['alias'],
         ));
+        $this->set('nextNprev',$this->Node->findNextPrev($node_id));
     }
 
     public function update_view($id = null)
@@ -852,7 +855,7 @@ class NodesController extends NodesAppController
                                 'user_id' => $this->Session->read('Auth.User.id'),
                                 'type' => 'clip',
                                 'comment_status' => '2',
-                                'status' => '0',
+                                'status' => '2',
                                 'promote' => '0',
                             ),
                             'Meta' => array(

@@ -691,12 +691,23 @@ class Node extends NodesAppModel
         $this->hasOne = array();
         $result = $this->find('all',array(
             'conditions'=>array(
-                'Node.type <>'=>'page'
+                'Node.type <>'=>'page',
+                'Node.status '=>'1'
             ),
             'order'=>array(
                 'Node.counts'=>'DESC'
             ),
             'limit'=>$limit
+        ));
+        return $result;
+    }
+    public function findNextPrev($node_id){
+        $this->belongsTo = array();
+        $this->hasMany = array();
+        $this->hasOne = array();
+        $this->id = $node_id;
+        $result = $this->find('neighbors',array(
+            'fields' => 'Node.id,Node.path,Node.type,Node.slug'
         ));
         return $result;
     }
