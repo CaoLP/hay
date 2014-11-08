@@ -701,6 +701,21 @@ class Node extends NodesAppModel
         ));
         return $result;
     }
+    public function findNewNodes($limit,$type){
+        $this->belongsTo = array();
+        $this->hasOne = array();
+        $result = $this->find('all',array(
+            'conditions'=>array(
+                'Node.type'=>$type,
+                'Node.status '=>'1'
+            ),
+            'order'=>array(
+                'Node.created'=>'DESC'
+            ),
+            'limit'=>$limit
+        ));
+        return $result;
+    }
     public function findNextPrev($node_id){
         $this->belongsTo = array();
         $this->hasMany = array();

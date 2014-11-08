@@ -12,7 +12,8 @@ if(isset($nextNprev['next']['Node']['url']))
         var videoLink = 'http://www.youtube.com/embed/<?php echo $this->Nodes->field('CustomFields.youtube_clip'); ?>?autoplay=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&nologo=1&vq=large&autoplay=0&amp;ps=docs';
         var updateView = '<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'update_view'));?>';
         var pid = '<?php echo $this->Nodes->field('id');?>';
-        var link = '<?php echo urlencode($this->Html->url($this->Nodes->field('url'),true));?>';;
+        var link = '<?php echo urlencode($this->Html->url($this->Nodes->field('url'),true));?>';
+        var postNew = '<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'index'));?>';
     </script>
     <div id="node-<?php echo $this->Nodes->field('id'); ?>"
          class="node node-type-<?php echo $this->Nodes->field('type'); ?> node-block">
@@ -83,7 +84,13 @@ if(isset($nextNprev['next']['Node']['url']))
         </span>
             <?php
             if ($type['Type']['format_show_date']) {
-                echo $this->Html->tag('span', $this->Time->format(Configure::read('Reading.date_time_format'), $this->Nodes->field('created'), null, Configure::read('Site.timezone')), array('class' => 'date pull-right'));
+                $dt1 = new DateTime();
+                $dt2 = new DateTime($this->Nodes->field('created'));
+                $total = $this->Custom->getDiffInHours($dt1, $dt2);
+                if ($total > 48)
+                    echo '<span class="date pull-right">' . $this->Time->format(Configure::read('Reading.date_time_format'), $this->Nodes->field('created'), null, Configure::read('Site.timezone')) . '</span>';
+                else
+                    echo '<span class="date pull-right">' . $total . ' giờ</span>';
             }
             ?>
         </div>
@@ -125,7 +132,13 @@ if(isset($nextNprev['next']['Node']['url']))
             </div>
         </div>
     <?php endif; ?>
-
+    <div class="row">
+        <div class="col-md-12" id="new-posts">
+            <div id="new-loading" class="loading" style="display: none;">
+                <a class="btn spin" href="#">Loading</a>
+            </div>
+        </div>
+    </div>
     <div class="modal fade video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
          aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">

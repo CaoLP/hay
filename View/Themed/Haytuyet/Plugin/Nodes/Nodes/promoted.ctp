@@ -27,14 +27,16 @@
         $this->Nodes->set($node);
         ?>
         <div class="node node-block node-type-<?php echo $this->Nodes->field('type'); ?>">
-            <div class="title">
-                <h2><a href="<?php echo $this->Html->url( $this->Nodes->field('url')); ?>" target="_blank"><?php echo $this->Nodes->field('title')?></a></h2>
-                <?php
-                echo $this->Nodes->info();
-                ?>
-            </div>
+            <?php
+            echo $this->Nodes->info();
+            ?>
             <?php
             echo $this->Nodes->body();
+            ?>
+            <div class="title">
+                <h2><a href="<?php echo $this->Html->url( $this->Nodes->field('url')); ?>" target="_blank"><?php echo $this->Nodes->field('title')?></a></h2>
+            </div>
+            <?php
             echo $this->Nodes->moreInfo(array('keys' => $temp));
             ?>
         </div>
@@ -42,6 +44,13 @@
     endforeach;
     ?>
 
-    <div class="paging"><?php echo $this->Paginator->numbers(); ?></div>
+    <div class="row">
+        <div class="col-md-12">
+                <?php
+                echo $this->Paginator->prev(__('&laquo; Trang trước'), array('tag' => false,'class' => 'btn btn-success pull-left','escape'=>false), null, array('tag' => false,'class' => 'btn btn-success pull-left disabled','disabledTag' => 'a','escape'=>false));
+                echo $this->Paginator->next(__('&raquo; Trang tiếp theo'), array('tag' => false,'class' => 'btn btn-success pull-right','escape'=>false), null, array('tag' => false,'class' => 'btn btn-success pull-right disabled','disabledTag' => 'a','escape'=>false));
+                ?>
+        </div>
+    </div>
 </div>
     </div>

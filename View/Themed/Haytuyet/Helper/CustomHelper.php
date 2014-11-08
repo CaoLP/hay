@@ -120,5 +120,16 @@ class CustomHelper extends Helper {
 
         return $output;
     }
-
+    public function getDiffInHours(\DateTime $earlierDate, \DateTime $laterDate)
+    {
+        $utc = new \DateTimeZone('UTC');
+        //Avoid side effects
+        $first = clone $earlierDate;
+        $second = clone $laterDate;
+        //First convert to UTC to avoid missing hours due to DST etc
+        $first->setTimezone($utc);
+        $second->setTimezone($utc);
+        $diff = $first->diff($second);
+        return 24 * $diff->days + $diff->h;
+    }
 }

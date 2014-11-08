@@ -1,7 +1,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="../" class="navbar-brand"><?php echo Configure::read('Site.name'); ?></a>
+            <a href="/" class="navbar-brand" title="<?php echo Configure::read('Site.title'); ?>"><img class="logo" src="/img/logo.png"></a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>

@@ -148,43 +148,38 @@ section.block-feature-cover .info-container h3 {
     padding: 5px 10px 5px 10px;
 }
 .nodes .title{
-    /*margin-top: 2px;*/
-    /*position: absolute;*/
-    /*background: rgba(255, 255, 255, 0.46);*/
-    /*width: 90%;*/
     margin-top: 0;
-    position: absolute;
-    width: 100%;
-    margin-left: 10px;
+    border-left: 1px rgba(31, 30, 30, 0.27) solid;
+    border-right: 1px rgba(31, 30, 30, 0.27) solid;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .nodes .title h2{
     margin-top: 0;
-    background: rgba(0, 0, 0, 0.76);
-    height: auto;
-    width: 90%;
-    padding-left: 10px;
     margin-bottom: 0px;
 }
 .nodes .title h2 a{
-    color: #ffffff;
+    color: #000000;
     font-size: 20px;
 }
 .node-info {
-    background-color: rgba(0, 0, 0, 0.76);
-    width: 50%;
-    color: #fff;
-    padding-left: 10px;
+
 }
 .nodes .node-body img{
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
+    margin-top: -70px;
+    border-left: 1px rgba(31, 30, 30, 0.27) solid;
+    border-top: 1px rgba(31, 30, 30, 0.27) solid;
+    border-right: 1px rgba(31, 30, 30, 0.27) solid;
+
 }
 .btn-vote {
-    padding-left: 0;
     overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 .btn-vote li {
-    margin: 0 10px 0 0;
+    margin: 0 5px 0 0;
     float: left;
     list-style: none;
 }
@@ -192,20 +187,19 @@ section.block-feature-cover .info-container h3 {
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 3px;
-    width: 44px;
-    height: 34px;
+    width: 35px;
+    height: 25px;
     display: block;
-    text-indent: -999px;
 }
-.btn-vote .up {
-    background: url(../img/sticky-vote.png) no-repeat;
-}
-.btn-vote .down {
-    background: url(../img/sticky-vote.png) no-repeat 0 -32px;
-}
-.btn-vote .comment {
-    background: url(../img/other-buttons.png) no-repeat 0 -32px;
-}
+/*.btn-vote .up {*/
+    /*background: url(../img/sticky-vote.png) no-repeat;*/
+/*}*/
+/*.btn-vote .down {*/
+    /*background: url(../img/sticky-vote.png) no-repeat 0 -32px;*/
+/*}*/
+/*.btn-vote .comment {*/
+    /*background: url(../img/other-buttons.png) no-repeat 0 -32px;*/
+/*}*/
 
 .post-afterbar-a .share ul {
     overflow: hidden;
@@ -252,9 +246,7 @@ section.block-feature-cover .info-container h3 {
 .view-title{
     position: absolute;
     font-size: 20px;
-    padding-left: 10px;
-    padding-right: 15px;
-    margin-top: 10px;
+    margin-top: 0px;
     background-color: rgba(255, 255, 255, 0.98);
     line-height: 1.2;
     padding-bottom: 5px;
@@ -291,7 +283,7 @@ element.style {
 #view-iframe{
     display: none;
 }
-@media (max-width: 992px)  {
+@media (max-width: 990px)  {
     .view-title{
         position: relative;
     }
@@ -309,6 +301,16 @@ element.style {
         padding-left: 40px;
         padding-right: 40px;
         max-width: 1366px;
+    }
+    #view-video{
+        display: block;
+        max-height: 405px;
+    }
+    .video-img{
+        margin-top: -25px;
+    }
+    .col-md-3.new-post-item {
+        width: 25%;
     }
 }
 .fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] ,.fb-comments span:first-child{
@@ -352,9 +354,10 @@ element.style {
     overflow: hidden;
 }
 .avatar {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 25px;
+    margin: 0 auto;
 }
 .signup-wrapper .header {
     padding: 60px 0 0;
@@ -396,4 +399,57 @@ element.style {
     display: none;
 }
 .video-share{
+}
+.node-body{
+    height: 385px;
+    overflow: hidden;
+}
+.node-view{
+    color: rgba(0, 4, 100, 0.73);
+    font-weight: bold;
+    border-left: 1px rgba(31, 30, 30, 0.27) solid;
+    border-bottom: 1px rgba(31, 30, 30, 0.27) solid;
+    border-right: 1px rgba(31, 30, 30, 0.27) solid;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.author{
+    font-size: 14px;
+    color: #3b5999;
+    font-weight: bold;
+}
+.author-info{
+    margin-left: 45px;
+    margin-bottom: 10px;
+}
+.date{
+    color: #9197a4;
+    font-size: 12px;
+}
+.row.new-title {
+    margin: 2px;
+}
+.row.new-img {
+    margin: 2px;
+}
+.row.new-img img{
+    margin: 0 auto;
+    width: 100%;
+}
+.new-title h3 {
+    margin: 0;
+    font-size: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.col-md-3.new-post-item {
+    text-align: center;
+}
+img.logo {
+    width: 35px;
+    height: 35px;
+    margin-top: -5px;
 }

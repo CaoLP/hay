@@ -164,10 +164,15 @@ class CroogoRouter {
 			'plugin' => 'nodes', 'controller' => 'nodes',
 			'action' => 'index', 'type' => $alias
 		));
+        CroogoRouter::connect('/' . $alias . '/hot', array(
+                'plugin' => 'nodes', 'controller' => 'nodes',
+                'action' => 'index', 'type' => $alias,'by'=>'counts'
+            ));
 		CroogoRouter::connect('/' . $alias . '/archives/*', array(
 			'plugin' => 'nodes', 'controller' => 'nodes',
 			'action' => 'index', 'type' => $alias
 		));
+
 		CroogoRouter::connect('/' . $alias . '/:slug', array(
 			'plugin' => 'nodes', 'controller' => 'nodes',
 			'action' => 'view', 'type' => $alias

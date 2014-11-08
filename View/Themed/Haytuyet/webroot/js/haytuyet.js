@@ -28,6 +28,17 @@ $(document).ready(function () {
                 $('#top-like').html(data);
             }
         });
+    if (typeof postNew != 'undefined')
+        $.ajax({
+            url: postNew,
+            beforeSend: function () {
+                $('#new-loading').show();
+            },
+            success: function (data) {
+                $('#new-loading').hide();
+                $('#new-posts').html(data);
+            }
+        });
     if (typeof updateView != 'undefined')
         $.ajax({
             url: updateView + '/' + pid + '?url=' + link
@@ -40,6 +51,9 @@ $(document).ready(function () {
     });
     $('.video-modal').on('hidden.bs.modal', function () {
         players['video-iframe'].pauseVideo();
+        counta = countb = 10;
+        clearInterval(countera);
+        clearInterval(counterb);
 //        $('#video-iframe').attr('src', '');
     });
     if ($('#scrollable-ads').length != 0) {
@@ -59,12 +73,14 @@ $(document).ready(function () {
     if($('.play-btn').length !=0){
         fixCenter();
     }
+    formatBodySize();
     fixCenterXSomeDiv('#player1','#video-share-a');
     fixCenterXSomeDiv('#video-iframe','#video-share-b');
     $(window).resize(function(){
         fixCenter();
         fixCenterXSomeDiv('#player1','#video-share-a');
         fixCenterXSomeDiv('#video-iframe','#video-share-b');
+        formatBodySize();
     });
 
     $('.badge-facebook-share').on('click',function(){
@@ -88,8 +104,8 @@ $(document).ready(function () {
     });
 
     function fixCenter(){
-        var parentHeight = $('#view-video img').height();
-        var parentWidth = $('#view-video img').width();
+        var parentHeight = $('#view-video').height();
+        var parentWidth = $('#view-video').width();
         var childHeight = $('.play-btn').height();
         var childWidth = $('.play-btn').width();
         var centerHeight = (parentHeight/2) - (childHeight/2);
@@ -100,6 +116,20 @@ $(document).ready(function () {
     }
 
 });
+$(document).load(function(){
+    //formatBodySize();
+});
+function formatBodySize(){
+    $('.node-body').each(function(){
+        var img = $(this).find('.img-content');
+        var bodyWidth = $(this).width();
+        var imgHeight = img.height();
+        var bodyHeight = bodyWidth * 0.546099291;
+        var imgMargin = bodyWidth * 0.09929078;
+        img.css('margin-top',imgMargin);
+        $(this).css('height',bodyHeight);
+    });
+}
 function fixCenterXSomeDiv(parent,child){
     var parentWidth = $(parent).width();
     var childWidth = $(child).width();
