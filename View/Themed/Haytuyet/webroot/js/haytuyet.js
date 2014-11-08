@@ -39,6 +39,13 @@ $(document).ready(function () {
                 $('#new-posts').html(data);
             }
         });
+    if (typeof userInfo != 'undefined')
+        $.ajax({
+            url: userInfo,
+            success: function (data) {
+                $('#user-info').html(data);
+            }
+        });
     if (typeof updateView != 'undefined')
         $.ajax({
             url: updateView + '/' + pid + '?url=' + link
@@ -103,6 +110,14 @@ $(document).ready(function () {
 
     });
 
+    $('#bt-view-top').on('click',function(){
+        if ($('#top-like').css('display') == 'none') {
+            $('#top-like').show('slow');
+        }else{
+            $('#top-like').hide('slow');
+        }
+
+    });
     function fixCenter(){
         var parentHeight = $('#view-video').height();
         var parentWidth = $('#view-video').width();

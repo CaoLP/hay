@@ -1,14 +1,7 @@
+<script>
+    var userInfo = '<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view',$user_id));?>';
+</script>
 <div class="col-md-7">
-    <?php
-
-    $title_for_layout = __d('croogo', 'Kết quả tìm kiếm cho: %s', h($q));
-
-    ?>
-    <div class="row">
-        <div class="col-md-12">
-            <h3><?php echo $title_for_layout; ?></h3>
-        </div>
-    </div>
     <div class="row">
         <?php echo $this->element('note'); ?>
     </div>
@@ -65,11 +58,8 @@
                                     href="http://www.facebook.com/haytuyetcom"
                                     target="_blank"><?php echo Configure::read('Site.title') ?> trên Facebook</a> để
                                 được cười nhiều hơn</h3>
-
                             <div class="like-haytyet">
-                                <div class="fb-like" data-href="http://www.facebook.com/haytuyetcom"
-                                     data-layout="standard" data-action="like" data-show-faces="false"
-                                     data-share="false"></div>
+                                <div class="fb-like" data-href="http://www.facebook.com/haytuyetcom" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
                             </div>
                         </div>
                     <?php
@@ -77,7 +67,6 @@
                     $count++;
                 endforeach;
                 ?>
-
                 <div class="row">
                     <div class="col-md-12">
                         <?php

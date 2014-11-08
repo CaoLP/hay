@@ -640,17 +640,35 @@ class UsersController extends UsersAppController {
  * @access public
  */
 	public function view($username = null) {
-		if ($username == null) {
-			$username = $this->Auth->user('username');
-		}
-		$user = $this->User->findByUsername($username);
-		if (!isset($user['User']['id'])) {
-			$this->Session->setFlash(__d('croogo', 'Invalid User.'), 'flash', array('class' => 'error'));
-			return $this->redirect('/');
-		}
+        if($this->request->isAjax()){
+            $this->layout = 'ajax';
+            $this->view = 'user_ajax';
+            $user = $this->User->findByUserId($username);
+            if(!isset($user['User']['id']))die;
+            $this->loadModel('Node');
+            $this->Node->Behaviors->enabled('Publishable',true);
 
-		$this->set('title_for_layout', $user['User']['name']);
-		$this->set(compact('user'));
+            $total = $this->Node->find('all',array(
+                'fields'=>'sum(Node.likes) as likes, count(Node.id) as total',
+                'conditions'=>array(
+                    'Node.user_id'=>$user['User']['id']
+                ),
+                'recursive' => -1,
+            ));
+            $this->set(compact('user','total'));
+        }
+        else{
+            if ($username == null) {
+                $username = $this->Auth->user('username');
+            }
+            $user = $this->User->findByUsername($username);
+            if (!isset($user['User']['id'])) {
+                $this->Session->setFlash(__d('croogo', 'Invalid User.'), 'flash', array('class' => 'error'));
+                return $this->redirect('/');
+            }
+            $this->set('title_for_layout', $user['User']['name']);
+            $this->set(compact('user'));
+        }
 	}
 
 	protected function _getSenderEmail() {

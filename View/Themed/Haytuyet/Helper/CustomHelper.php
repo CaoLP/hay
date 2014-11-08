@@ -28,7 +28,7 @@ class CustomHelper extends Helper {
 
     public function menu($menuAlias, $options = array()) {
         $_options = array(
-            'tag' => 'ul',
+            'tag' => false,
             'tagAttributes' => array(),
             'selected' => 'active',
             'dropdown' => false,

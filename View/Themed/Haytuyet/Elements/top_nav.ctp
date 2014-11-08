@@ -9,8 +9,31 @@
             </button>
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
-            <?php echo $this->Custom->menu('main', array('dropdown' => true)); ?>
+            <ul class="nav navbar-nav search-box">
+                <li>
+                    <?php
+                    echo $this->Form->create('Node', array('url' => array('admin' => false, 'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'search')));
+                    ?>
+                    <div class="search-group">
+                        <span class="input-search-addon"><i class="fa fa-search"></i></span>
+                        <?php
+                        $this->Form->unlockField('q');
+                        echo $this->Form->input('q', array(
+                            'label' => false,
+                            'class' =>'form-control',
+                            'div'=>false
+                        ));
+                        ?>
+                    </div>
+                    <?php
+                    echo $this->Form->end();
+                    ?>
+                </li>
+            </ul>
+
             <ul class="nav navbar-nav navbar-right">
+                <?php echo $this->Custom->menu('main', array('dropdown' => true)); ?>
+
                 <?php
                 if ($this->Session->read('Auth.User')) {
                     ?>

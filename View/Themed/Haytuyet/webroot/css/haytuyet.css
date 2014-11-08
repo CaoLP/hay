@@ -261,6 +261,14 @@ section.block-feature-cover .info-container h3 {
 .navbar-inverse .dropdown-menu {
     background-color: #3b5999;
 }
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
+    color: #fff;
+    background-color: #3d578e;
+}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus{
+    color: #fff;
+    background-color: #3d578e;
+}
 element.style {
 }
 .video-container {
@@ -282,6 +290,22 @@ element.style {
 }
 #view-iframe{
     display: none;
+}
+#bt-view-top {
+    display: none;
+}
+@media (max-width: 991px)  {
+    #bt-view-top{
+        display: block;
+    }
+    #top-like{
+        display: none;
+    }
+    .search-box div{
+        width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 @media (max-width: 990px)  {
     .view-title{
@@ -438,7 +462,7 @@ element.style {
 }
 .new-title h3 {
     margin: 0;
-    font-size: 20px;
+    font-size: 14px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden !important;
@@ -449,7 +473,60 @@ element.style {
     text-align: center;
 }
 img.logo {
-    width: 35px;
-    height: 35px;
+    width: 27px;
+    height: 27px;
     margin-top: -5px;
+    margin-left: 5px;
+}
+.search-box div{
+    width: 350px;
+    margin-top: 10px;
+    height: 25px;
+}
+.search-box span{
+    position: absolute;
+    z-index: 10;
+    height: 20px;
+    padding: 0px 10px 0px 10px ;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+    margin-top: 3px;
+}
+.search-box input{
+    height: 25px;
+    padding: 0 0 0 30px;
+    border-left: 0;
+    border-radius: 5px;
+}
+.like-box{
+    border-top: 1px rgba(0, 0, 0, 0.14) solid;
+    border-bottom: 1px rgba(0, 0, 0, 0.14) solid;
+    margin-bottom: 10px;
+}
+.like-box .like-box-title {
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+}
+.like-box .like-haytyet{
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+#user-info .media{
+    margin-bottom: 10px;
+}
+#user-info .media img{
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+}
+.note{
+    margin-bottom: 10px;
+}
+.note .alert {
+    font-size: 15px;
+    font-weight: 300;
+}
+h3.topUsers {
+    font-size: 16px;
 }

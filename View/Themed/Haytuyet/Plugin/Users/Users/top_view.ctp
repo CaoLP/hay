@@ -8,7 +8,7 @@
                 foreach ($top_likes as $user) {
                     ?>
                     <li class="item">
-                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view','username'=>$user['User']['username']));?>" title="<?php echo $user['User']['name'];?>">
+                        <a target="_blank" href="<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'user_posted','user_id'=>$user['User']['id']));?>" title="<?php echo $user['User']['name'];?>">
                             <div class="row">
                                 <img src="<?php echo !empty($user['User']['image'])?$user['User']['image']:'/img/noimage.gif';?>">
                             </div>
@@ -47,8 +47,8 @@
                 foreach ($top_posts as $user) {
                     ?>
                     <li class="item">
-                        <a href="<?php echo $this->Html->url(array('plugin'=>'users','controller'=>'users','action'=>'view','username'=>$user['User']['username']));?>" title="<?php echo $user['User']['name'];?>">
-                            <div class="row">
+                        <a target="_blank" href="<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'user_posted','user_id'=>$user['User']['id']));?>" title="<?php echo $user['User']['name'];?>">
+                        <div class="row">
                                 <img src="<?php echo !empty($user['User']['image'])?$user['User']['image']:'/img/noimage.gif';?>">
                             </div>
                             <div class="row">

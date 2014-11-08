@@ -20,6 +20,4 @@ CroogoRouter::connect('/register', array('plugin' => 'users', 'controller' => 'u
 CroogoRouter::connect('/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 
 
-CroogoRouter::connect('/user/:username', array(
-	'plugin' => 'users', 'controller' => 'users', 'action' => 'view'), array('pass' => array('username')
-));
+

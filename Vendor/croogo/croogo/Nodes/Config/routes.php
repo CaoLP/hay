@@ -42,3 +42,9 @@ CroogoRouter::connect('/page/:slug', array(
 	'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'view',
 	'type' => 'page'
 ));
+CroogoRouter::connect('/user/:user_id', array(
+    'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'user_posted'), array('pass' => array('user_id')
+));
+CroogoRouter::connect('/sitemap.xml', array(
+    'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'sitemap'
+    ));

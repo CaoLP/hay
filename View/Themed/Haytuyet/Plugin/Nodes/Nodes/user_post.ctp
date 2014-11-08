@@ -44,6 +44,9 @@
     ?>
     </div>
     <div class="form-group">
+    <button type="submit" class="btn btn-primary pull-right">Đăng bài</button>
+    </div>
+    <div class="form-group">
         <h3>Nội quy đăng bài</h3>
         <div class="well well-lg">
         <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Tiêu đề tiếng Việt cần phải có dấu. Bài viết tiêu đề
@@ -59,7 +62,6 @@
             kiểu như: "hay vãi", "chuẩn", ":))"...Không đặt tiêu đề câu like hay có chữ câu like trong bài.</em></p>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary pull-right">Đăng bài</button>
     <?php echo $this->Form->end(); ?>
 </div>
 <?php

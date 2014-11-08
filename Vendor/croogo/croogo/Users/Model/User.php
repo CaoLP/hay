@@ -237,4 +237,17 @@ class User extends UsersAppModel {
        ));
        return $result;
    }
+    public function findByUserId($id=null){
+        $this->belongsTo =array();
+        $this->hasMany =array();
+        $this->hasOne =array();
+
+        $this->belongsTo =array();
+        $result = $this->find('first',array(
+            'conditions'=>array(
+                'User.id' => $id
+            )
+        ));
+        return $result;
+    }
 }

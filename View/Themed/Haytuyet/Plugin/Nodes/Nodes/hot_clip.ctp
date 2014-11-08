@@ -12,7 +12,7 @@
             </div>
             <div class="info-container" data-item-id="5806">
                 <h3>
-                    <a href="<?php echo $this->Html->url($item['Node']['url'])?>" class="badge-evt" target="_blank">
+                    <a href="<?php echo $this->Html->url($item['Node']['url'])?>" class="badge-evt">
                         <?php echo $item['Node']['title']?>
                     </a>
                 </h3>
