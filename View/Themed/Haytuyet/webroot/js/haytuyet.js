@@ -93,7 +93,7 @@ $(document).ready(function () {
     $('.badge-facebook-share').on('click',function(){
         var url = $(this).data('share');
         FB.ui({
-            method: 'feed',
+            method: 'share',
             href: url
         }, function(response){});
     });

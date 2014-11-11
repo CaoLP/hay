@@ -15,7 +15,7 @@
                     echo $this->Form->create('Node', array('url' => array('admin' => false, 'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'search')));
                     ?>
                     <div class="search-group">
-                        <span class="input-search-addon"><i class="fa fa-search"></i></span>
+
                         <?php
                         $this->Form->unlockField('q');
                         echo $this->Form->input('q', array(
@@ -24,6 +24,7 @@
                             'div'=>false
                         ));
                         ?>
+                        <submit class="btn bt-search"><i class="fa fa-search"></i></submit>
                     </div>
                     <?php
                     echo $this->Form->end();
@@ -49,7 +50,7 @@
                                 class="caret"></span></a>
                         <ul class="dropdown-menu" aria-labelledby="download">
                             <li>
-                                <a href="<?php echo $this->Html->url(array('plugin' => 'users', 'controller' => 'users', 'action' => 'view', 'username'=>$this->Session->read('Auth.User.username'))) ?>">Thông
+                                <a href="<?php echo $this->Html->url(array('plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'user_posted', 'user_id'=>$this->Session->read('Auth.User.id'))) ?>">Thông
                                     tin</a></li>
                             <li>
                                 <a href="<?php echo $this->Html->url(array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout')) ?>">Đăng

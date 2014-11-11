@@ -75,7 +75,7 @@ if(isset($nextNprev['next']['Node']['url']))
             <a target="_blank" href="<?php echo $this->Html->url(array('plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'user_posted', 'user_id'=>$this->Nodes->field('User.id'))) ?>">
             <span class="author">
         <img class="avatar"
-             src="<?php echo $this->Nodes->field('User.image') ? $this->Nodes->field('User.name') : '/img/noimage.gif'; ?>">
+             src="<?php echo $this->Nodes->field('User.image') ? $this->Nodes->field('User.image') : '/img/noimage.gif'; ?>">
                 <?php
                 echo $this->Nodes->field('User.name');
                 ?>
@@ -142,12 +142,13 @@ if(isset($nextNprev['next']['Node']['url']))
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <!--<div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel"><?php echo $this->Nodes->field('title'); ?></h4>
                 </div>
+                -->
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8">
@@ -183,6 +184,9 @@ if(isset($nextNprev['next']['Node']['url']))
                                 </div>
 
                             </div>
+
+                        </div>
+                        <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -190,9 +194,6 @@ if(isset($nextNprev['next']['Node']['url']))
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-
                             <div id="target-comments">
                                 <!--                        <iframe-->
                                 <!--                            src="-->

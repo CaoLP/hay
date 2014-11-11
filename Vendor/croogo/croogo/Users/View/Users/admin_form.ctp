@@ -55,6 +55,9 @@ $this->append('tab-content');
 		$this->Form->input('website', array(
 			'label' => __d('croogo', 'Website'),
 		)) .
+        $this->Form->input('image', array(
+            'label' => __d('croogo', 'Image'),
+        )) .
 		$this->Form->input('timezone', array(
 			'type' => 'select',
 			'empty' => true,

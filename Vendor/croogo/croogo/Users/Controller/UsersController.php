@@ -697,7 +697,8 @@ class UsersController extends UsersAppController {
             ),
             'recursive' => -1,
             'limit'=>10,
-            'group' => 'Node.user_id'
+            'group' => 'Node.user_id',
+            'order' => array('total'=>'DESC')
 
         ));
         //SELECT `ht_users`.`name` , count(`ht_nodes`.`id`) as `total` FROM `ht_nodes` inner join `ht_users` on `ht_users`.`id` = `ht_nodes`.`user_id`  WHERE MONTH(`ht_nodes`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`ht_nodes`.`created`) = YEAR(CURRENT_DATE) group by `ht_nodes`.`user_id`
@@ -719,7 +720,8 @@ class UsersController extends UsersAppController {
             ),
             'recursive' => -1,
             'limit'=>10,
-            'group' => 'Node.user_id'
+            'group' => 'Node.user_id',
+            'order' => array('total'=>'DESC')
 
         ));
         $this->set(compact('top_likes','top_posts'));

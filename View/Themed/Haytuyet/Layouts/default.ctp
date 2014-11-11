@@ -78,6 +78,32 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
+<script type='text/javascript'>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function() {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+            '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+    })();
+</script>
+
+<script type='text/javascript'>
+    googletag.cmd.push(function() {
+        googletag.defineSlot('/12519726/haytuyet336x280', [336, 280], 'div-gpt-ad-1415677118184-0').addService(googletag.pubads());
+        googletag.defineSlot('/12519726/haytuyet728x90', [728, 90], 'div-gpt-ad-1415677194948-0').addService(googletag.pubads());
+        googletag.defineSlot('/12519726/haytuyet300x600', [300, 600], 'div-gpt-ad-1415677276331-0').addService(googletag.pubads());
+        googletag.defineSlot('/12519726/728x90pu1', [728, 90], 'div-gpt-ad-1415677308412-0').addService(googletag.pubads());
+        googletag.defineSlot('/12519726/728x90pu2', [728, 90], 'div-gpt-ad-1415677337497-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+    });
+</script>
 <?php echo $this->element('top_nav') ?>
 <div class="container-fluid main">
     <div class="row">

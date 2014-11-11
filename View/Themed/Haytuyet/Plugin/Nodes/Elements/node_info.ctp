@@ -7,7 +7,7 @@
     ?>
     <a target="_blank" href="<?php echo $this->Html->url(array('plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'user_posted', 'user_id'=>$this->Nodes->field('User.id'))) ?>">
     <div class="pull-left"><img class="avatar"
-                                src="<?php echo $this->Nodes->field('User.image') ? $this->Nodes->field('User.name') : '/img/noimage.gif'; ?>">
+                                src="<?php echo $this->Nodes->field('User.image') ? $this->Nodes->field('User.image') : '/img/noimage.gif'; ?>">
     </div>
     <div class="author-info">
         <span class="author">

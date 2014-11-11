@@ -4,13 +4,13 @@
     <?php
     foreach($hot_nodes as $item){
         ?>
-        <li class="badge-featured-item" data-item-id="5806" id="featured-item-5806">
-            <div class="img-container" data-item-id="5806">
-                <a href="<?php echo $this->Html->url($item['Node']['url'])?>" class="badge-evt" target="_blank">
+        <li class="badge-featured-item">
+            <div class="img-container">
+                <a href="<?php echo $this->Html->url($item['Node']['url'])?>" class="badge-evt">
                     <img src="<?php echo $item['CustomFields']['image']?>">
                 </a>
             </div>
-            <div class="info-container" data-item-id="5806">
+            <div class="info-container">
                 <h3>
                     <a href="<?php echo $this->Html->url($item['Node']['url'])?>" class="badge-evt">
                         <?php echo $item['Node']['title']?>

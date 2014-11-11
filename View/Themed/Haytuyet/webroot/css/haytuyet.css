@@ -341,8 +341,8 @@ element.style {
     width: 100% !important;
 }
 #target-comments{
-    overflow-y: scroll;
-    height: 470px;
+    overflow-y: auto;
+    height: 436px;
 }
 .video-modal{
 
@@ -352,6 +352,15 @@ element.style {
      border-bottom: 1px solid #e5e5e5;
      min-height: 10.4px;
  }
+.video-modal .modal-body{
+    padding: 0;
+}
+.video-modal .modal-body .col-md-8{
+    padding-right: 0;
+}
+.video-modal .modal-body .col-md-4{
+    padding: 2px;
+}
 .video-modal .modal-dialog{
     width: 90%;
 }
@@ -494,7 +503,7 @@ img.logo {
 }
 .search-box input{
     height: 25px;
-    padding: 0 0 0 30px;
+    padding: 0 35px 0 0;
     border-left: 0;
     border-radius: 5px;
 }
@@ -529,4 +538,9 @@ img.logo {
 }
 h3.topUsers {
     font-size: 16px;
+}
+.bt-search{
+    position: absolute;
+    right: 0px;
+    top: 5px;
 }

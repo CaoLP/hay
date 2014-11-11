@@ -975,6 +975,7 @@ class NodesController extends NodesAppController
                             Croogo::dispatchEvent('Controller.Nodes.afterAdd', $this, array('data' => $temp_data));
                             $this->Session->setFlash(__d('croogo', 'Bài đã được đăng và đang chờ duyệt'), 'message', array('class' => 'alert-success'));
                             $this->view = 'post_success';
+                            $this->request->data = array();
                         } else {
                             $this->Session->setFlash(__d('croogo', 'Không thể lưu bài'), 'message', array('class' => 'alert-warning'));
                         }

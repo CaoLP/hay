@@ -1,7 +1,7 @@
 <?php
 $note = array(
-    'Website đang chạy thử nghiệm, mong nhận được sự đóng góp ý kiến từ các bạn: <a href="http://www.facebook.com/haytuyetcom">'.Configure::read('Site.title').'</a>',
-    'Vừa xem clip, vừa kiếm tiền, xem chi tiết tại <a href="http://www.facebook.com/haytuyetcom">đây</a>',
+    'Website đang chạy thử nghiệm, mong nhận được sự đóng góp ý kiến từ các bạn: <a href="http://www.facebook.com/haytuyetcom" target="_blank">'.Configure::read('Site.title').'</a>',
+    'Vừa xem clip, vừa kiếm tiền, xem chi tiết tại <a href="http://www.facebook.com/haytuyetcom" target="_blank">đây</a>',
     'Clip muốn được nhiều người xem phải mới và hấp dẫn.',
     'Lưu ý: Đây là SÂN CHƠI MIỄN PHÍ với môi trường trong sạch và lành mạnh cho các bạn trẻ. Hãy tham gia bằng sự HÀI HƯỚC trong phạm vi VĂN HOÁ và PHÁP LUẬT cho phép.'
 );
