@@ -544,3 +544,32 @@ h3.topUsers {
     right: 0px;
     top: 5px;
 }
+.popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: none;
+    max-width: 500px;
+    padding: 3px;
+    text-align: left;
+    background-color: #FFFFFF;
+    background-clip: padding-box;
+    border: 1px solid rgba(51, 51, 51, 0.89);
+    border: 1px solid rgb(5, 5, 5);
+    border-radius: 0;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    white-space: normal;
+    color: #000;
+}
+.popover-content{
+    min-width: 300px;
+    padding: 0;
+}
+.popover-content ul{
+    margin: 0;
+}
+.popover-content li{
+    padding: 2px;
+}

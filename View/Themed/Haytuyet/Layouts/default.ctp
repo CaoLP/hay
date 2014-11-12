@@ -139,6 +139,12 @@ if ($this->Session->read('Auth.User'))
     var topView = '<?php echo $this->Html->url(array(
     'plugin'=>'users','controller'=>'users','action'=>'top_view'
 ))?>';
+    var countMSG = '<?php echo $this->Html->url(array(
+        'plugin'=>'users',
+        'controller'=>'user_messages',
+        'action'=>'count_message',
+        $this->Session->read('Auth.User.id')
+    ))?>';
 </script>
 <?php
 echo $this->Layout->js();
@@ -149,6 +155,9 @@ echo $this->Html->script(array(
     '//www.youtube.com/iframe_api',
     'haytuyet',
 ));
+if ($this->Session->read('Auth.User')){
+    echo $this->Html->script(array('message'));
+}
 echo $this->fetch('script');
 echo $this->Blocks->get('script');
 echo $this->Blocks->get('scriptBottom');

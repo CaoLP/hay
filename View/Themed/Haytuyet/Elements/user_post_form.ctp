@@ -43,12 +43,14 @@
                 <?php
                 echo $this->Form->input('youtube_clip', array('label' => array('text' => 'Link Clip Youtube'), 'required' => 'required'));
                 ?>
+                <!--
                 <div class="form-group">
                     <label>Mã bảo mật</label>
                     <?php
-                    $this->Captcha->render(array('model'=>'Node','clabel'=>'Mã bảo mật','reload_txt'=>'Mã số khác'));
+                   // $this->Captcha->render(array('model'=>'Node','clabel'=>'Mã bảo mật','reload_txt'=>'Mã số khác'));
                     ?>
                 </div>
+                -->
                 <div class="form-group">
                     <h3>Nội quy đăng bài</h3>
                     <div class="well well-lg">

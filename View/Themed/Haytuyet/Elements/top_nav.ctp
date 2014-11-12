@@ -40,6 +40,7 @@
                     ?>
                     <li><a href="#user-post-form" data-toggle="modal" data-target="#user-post-form"><i
                                 class="fa fa-cloud-upload"></i> Đăng bài</a></li>
+                    <?php echo $this->element('user_messages');?>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">
                             <img src="<?php

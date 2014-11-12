@@ -14,7 +14,7 @@ Router::connect('/:api/:prefix/nodes/lookup', array(
 
 // Basic
 CroogoRouter::connect('/', array(
-	'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'promoted'
+	'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'index'
 ));
 
 CroogoRouter::connect('/promoted/*', array(

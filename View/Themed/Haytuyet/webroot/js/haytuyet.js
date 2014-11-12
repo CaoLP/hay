@@ -5,6 +5,21 @@ var countera;
 var counterb;
 $(document).ready(function () {
     var wHeight = $('#block-11').height();
+
+    $('.video-modal').on('shown.bs.modal', function () {
+        players['video-iframe'].playVideo();
+//        $('#video-iframe').attr('src', videoLink);
+        var comments = $(document).find('#fb-comment-box').html();
+        $('#target-comments').html(comments);
+    });
+    $('.video-modal').on('hidden.bs.modal', function () {
+        players['video-iframe'].pauseVideo();
+        counta = countb = 10;
+        clearInterval(countera);
+        clearInterval(counterb);
+//        $('#video-iframe').attr('src', '');
+    });
+
     if (typeof clipHot != 'undefined')
         $.ajax({
             url: clipHot,
@@ -50,19 +65,7 @@ $(document).ready(function () {
         $.ajax({
             url: updateView + '/' + pid + '?url=' + link
         });
-    $('.video-modal').on('shown.bs.modal', function () {
-        players['video-iframe'].playVideo();
-//        $('#video-iframe').attr('src', videoLink);
-        var comments = $(document).find('#fb-comment-box').html();
-        $('#target-comments').html(comments);
-    });
-    $('.video-modal').on('hidden.bs.modal', function () {
-        players['video-iframe'].pauseVideo();
-        counta = countb = 10;
-        clearInterval(countera);
-        clearInterval(counterb);
-//        $('#video-iframe').attr('src', '');
-    });
+
     if ($('#scrollable-ads').length != 0) {
         $(window).scroll(function () {
             if ($(window).width() > 990) {
@@ -227,4 +230,65 @@ function timerb()
         return;
     }
     document.getElementById("timer-b").innerHTML=countb ; // watch for spelling
+}
+
+function genImagecb(id) {
+    var box = $('#youtube_img');
+    box.html('');
+    var radiobox = '';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/0.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/0.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/0.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/1.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/1.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/1.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/2.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/2.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/2.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/3.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/3.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/3.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/default.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/default.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/default.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/hqdefault.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/hqdefault.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/hqdefault.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/mqdefault.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/mqdefault.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/mqdefault.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/sddefault.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/sddefault.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/sddefault.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    radiobox += '<div class="radio">' +
+        '<label>' +
+        '<a href="javascript:;;" class="youtube_radio" data-value="http://img.youtube.com/vi/' + id + '/maxresdefault.jpg">Select</a>' +
+        '<a href="http://img.youtube.com/vi/' + id + '/maxresdefault.jpg" class="thickbox" rel="gallery"><img src="http://img.youtube.com/vi/' + id + '/maxresdefault.jpg"></a>' +
+        '</label>' +
+        '</div>';
+    box.append(radiobox);
 }

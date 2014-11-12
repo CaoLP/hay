@@ -91,6 +91,7 @@ class NodesController extends NodesAppController
             $this->request->params['named']['type'] = $this->request->params['type'];
         }
         $this->Security->unlockedActions[] = 'admin_toggle';
+        $this->Security->unlockedActions[] = 'admin_userpost_toggle';
     }
 
     /**
@@ -104,7 +105,39 @@ class NodesController extends NodesAppController
     {
         $this->Croogo->fieldToggle($this->{$this->modelClass}, $id, $status);
     }
+    public function admin_userpost_toggle($id = null, $status = null)
+    {
+        if(isset($this->request->query['receive_id'])){
+            $receive_id = $this->request->query['receive_id'];
+            $title = $this->request->query['title'];
 
+            if (empty($id) || $status === null) {
+                throw new CakeException(__d('croogo', 'Invalid content'));
+            }
+            $this->Node->id = $id;
+            $status = (int)!$status;
+            $this->layout = 'ajax';
+            if ( $this->Node->saveField('status', $status)) {
+
+                $this->loadModel('Users.UserMessage');
+                $message = 'Bài <strong>"'.$title.'"</strong> của bạn đã được duyệt';
+                if($status == 0){
+                    $message = 'Bài <strong>"'.$title.'"</strong> của bạn không được duyệt';
+                }
+                $saveData = array('UserMessage'=>array(
+                    'user_id' => $this->Session->read('Auth.User.id'),
+                    'receive_id' => $receive_id,
+                    'message' => $message,
+                ));
+                $this->UserMessage->save($saveData);
+
+                $this->set(compact('id', 'status','receive_id','title'));
+                $this->render('admin_userpost_toggle');
+            } else {
+                throw new CakeException(__d('croogo', 'Failed toggling field %s to %s', 'status', $status));
+            }
+        }
+    }
     /**
      * Admin index
      *
@@ -906,9 +939,9 @@ class NodesController extends NodesAppController
         if ($this->request->is('post')) {
             $title = $this->request->data['Node']['title'];
             $slug = $this->make_title_furl($this->request->data['Node']['title']);
-            $this->Node->setCaptcha('security_code', $this->Captcha->getCode('Node.security_code'));
+            //$this->Node->setCaptcha('security_code', $this->Captcha->getCode('Node.security_code'));
             $this->Node->set(array('Node' => array(
-                'security_code' => $this->request->data['Node']['security_code'],
+               // 'security_code' => $this->request->data['Node']['security_code'],
                 'slug' => $slug,
             )));
             if ($this->Node->validates()) {
