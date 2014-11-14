@@ -573,3 +573,11 @@ h3.topUsers {
 .popover-content li{
     padding: 2px;
 }
+#user-post-form .modal-body{
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+#user-post-form .modal-footer{
+    padding-top: 0px;
+    border-top: none;
+}

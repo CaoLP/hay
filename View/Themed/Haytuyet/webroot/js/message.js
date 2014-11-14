@@ -1,26 +1,37 @@
-$(document).ready(function(){
-    $.ajax({
-        url: countMSG,
-        success: function(response){
-            $('#count-MSG').html(response);
+$(document).ready(function () {
+    getCount();
+    var running = false;
+    $('#msg').popover({
+        placement: 'bottom',
+        html: true,
+        content: function () {
+            var div_id = "tmp-id-" + $.now();
+            details_in_popup($(this).data('poload'), div_id);
+            return '<div id="' + div_id + '"><div class="loading"><a class="btn spin" href="#">Loading</a></div></div>';
         }
     });
-        $('#msg').popover({
-            placement: 'bottom',
-            html: true,
-            content: function(){
-                var div_id =  "tmp-id-" + $.now();
-                return details_in_popup($(this).data('poload'), div_id);
-            }
-        });
-
-        function details_in_popup(link, div_id){
+//    setInterval(function(){ getCount();}, 10000);
+    function details_in_popup(link, div_id) {
+        if (!running) {
             $.ajax({
                 url: link,
-                success: function(response){
-                    $('#'+div_id).html(response);
+                beforeSend: function () {
+                    running = true;
+                },
+                success: function (response) {
+                    $('.popover-content').html(response);
+                    running = false;
+                    getCount();
                 }
             });
-            return '<div id="'+ div_id +'"><div class="loading"><a class="btn spin" href="#">Loading</a></div></div>';
         }
+    }
+    function getCount(){
+        $.ajax({
+            url: countMSG,
+            success: function (response) {
+                $('#count-MSG').html(response);
+            }
+        });
+    }
 });

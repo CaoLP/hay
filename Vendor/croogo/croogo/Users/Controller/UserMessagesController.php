@@ -19,19 +19,30 @@ class UserMessagesController extends UsersAppController {
 
 	public $uses = array('Users.UserMessage');
 
-    public function index(){
+    public function index($user_id = null){
+        $this->paginate['UserMessage']['conditions'] = array(
+            'UserMessage.receive_id' => $user_id,
+        );
+        $this->paginate['UserMessage']['order'] = 'UserMessage.at DESC';
+        $this->paginate['UserMessage']['limit'] = 20;
 
+        $this->set('messages', $this->paginate('UserMessage'));
     }
     public function message($user_id = null){
         $this->layout= 'ajax';
         $messages = $this->UserMessage->find('all',array(
             'conditions'=>array(
                 'UserMessage.receive_id' => $user_id,
-                'UserMessage.status' => 0,
             ),
             'order'=>array('UserMessage.at'=>'DESC'),
             'limit'=>10
         ));
+        $key = Set::combine($messages,'{n}.UserMessage.id','{n}');
+        $key = array_keys($key);
+        $this->UserMessage->updateAll(
+            array('UserMessage.status'=> 1),
+            array('UserMessage.id'=> $key)
+        );
        $this->set(compact('messages'));
     }
     public function count_message($user_id = null){

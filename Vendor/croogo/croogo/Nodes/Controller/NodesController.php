@@ -116,6 +116,7 @@ class NodesController extends NodesAppController
                 throw new CakeException(__d('croogo', 'Invalid content'));
             }
             $this->Node->id = $id;
+            if($status == 2) $status =0;
             $status = (int)!$status;
             $this->layout = 'ajax';
             if ($this->Node->saveField('status', $status)) {
