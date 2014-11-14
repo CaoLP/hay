@@ -100,12 +100,11 @@ $this->append('table-body');
 					)
 				);
 				echo ' ' . $this->Croogo->adminRowAction('',
-					'#Node' . $node['Node']['id'] . 'Id',
+                        '/admin/nodes/nodes/userpost_delete/'.$node['Node']['id'].'?'.'receive_id='. $node['Node']['user_id'].'&'.'title='.$node['Node']['title'],
 					array(
 						'icon' => $_icons['delete'],
 						'class' => 'delete',
 						'tooltip' => __d('croogo', 'Remove this item'),
-						'rowAction' => 'delete',
 					),
 					__d('croogo', 'Are you sure?')
 				);

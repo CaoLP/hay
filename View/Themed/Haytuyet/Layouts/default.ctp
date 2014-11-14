@@ -92,7 +92,6 @@
         node.parentNode.insertBefore(gads, node);
     })();
 </script>
-
 <script type='text/javascript'>
     googletag.cmd.push(function() {
         googletag.defineSlot('/12519726/haytuyet336x280', [336, 280], 'div-gpt-ad-1415677118184-0').addService(googletag.pubads());

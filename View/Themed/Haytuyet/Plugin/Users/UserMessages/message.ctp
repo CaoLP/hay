@@ -10,4 +10,7 @@
         </li>
     <?php
     }?>
+    <li class="list-group-item">
+        <a href="javascript:;">Xem tất cả</a>
+    </li>
 </ul>

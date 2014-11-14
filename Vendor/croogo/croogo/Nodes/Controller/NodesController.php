@@ -105,9 +105,10 @@ class NodesController extends NodesAppController
     {
         $this->Croogo->fieldToggle($this->{$this->modelClass}, $id, $status);
     }
+
     public function admin_userpost_toggle($id = null, $status = null)
     {
-        if(isset($this->request->query['receive_id'])){
+        if (isset($this->request->query['receive_id'])) {
             $receive_id = $this->request->query['receive_id'];
             $title = $this->request->query['title'];
 
@@ -117,27 +118,28 @@ class NodesController extends NodesAppController
             $this->Node->id = $id;
             $status = (int)!$status;
             $this->layout = 'ajax';
-            if ( $this->Node->saveField('status', $status)) {
+            if ($this->Node->saveField('status', $status)) {
 
                 $this->loadModel('Users.UserMessage');
-                $message = 'Bài <strong>"'.$title.'"</strong> của bạn đã được duyệt';
-                if($status == 0){
-                    $message = 'Bài <strong>"'.$title.'"</strong> của bạn không được duyệt';
+                $message = 'Bài <strong>"' . $title . '"</strong> của bạn đã được duyệt';
+                if ($status == 0) {
+                    $message = 'Bài <strong>"' . $title . '"</strong> của bạn không được duyệt';
                 }
-                $saveData = array('UserMessage'=>array(
+                $saveData = array('UserMessage' => array(
                     'user_id' => $this->Session->read('Auth.User.id'),
                     'receive_id' => $receive_id,
                     'message' => $message,
                 ));
                 $this->UserMessage->save($saveData);
 
-                $this->set(compact('id', 'status','receive_id','title'));
+                $this->set(compact('id', 'status', 'receive_id', 'title'));
                 $this->render('admin_userpost_toggle');
             } else {
                 throw new CakeException(__d('croogo', 'Failed toggling field %s to %s', 'status', $status));
             }
         }
     }
+
     /**
      * Admin index
      *
@@ -342,13 +344,33 @@ class NodesController extends NodesAppController
      * @return void
      * @access public
      */
+    public function admin_userpost_delete($id = null)
+    {
+        $Node = $this->{$this->modelClass};
+        if ($Node->delete($id)) {
+            if (isset($this->request->query['receive_id'])) {
+                $receive_id = $this->request->query['receive_id'];
+                $title = $this->request->query['title'];
+                $this->loadModel('Users.UserMessage');
+                $message = 'Bài <strong>"' . $title . '"</strong> của bạn đã bị xoá';
+
+                $saveData = array('UserMessage' => array(
+                    'user_id' => $this->Session->read('Auth.User.id'),
+                    'receive_id' => $receive_id,
+                    'message' => $message,
+                ));
+                $this->UserMessage->save($saveData);
+            }
+        }
+        return $this->redirect(array('action' => 'users_posts'));
+    }
+
     public function admin_delete($id = null)
     {
         if (!$id) {
             $this->Session->setFlash(__d('croogo', 'Invalid id for Node'), 'flash', array('class' => 'error'));
             return $this->redirect(array('action' => 'index'));
         }
-
         $Node = $this->{$this->modelClass};
         if ($Node->delete($id)) {
             $this->Session->setFlash(__d('croogo', 'Node deleted'), 'flash', array('class' => 'success'));
@@ -469,7 +491,7 @@ class NodesController extends NodesAppController
                         'Type.alias' => $this->request->params['named']['type'],
                     ),
                     'cache' => array(
-                        'name' => 'type_' . $this->request->params['named']['type'].'_' . $this->request->params['by'],
+                        'name' => 'type_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'],
                         'config' => 'nodes_index',
                     ),
                 ));
@@ -489,11 +511,11 @@ class NodesController extends NodesAppController
             if ($this->usePaginationCache) {
                 $cacheNamePrefix = 'nodes_index_' . $this->Croogo->roleId() . '_' . Configure::read('Config.language');
                 if (isset($type)) {
-                    $cacheNamePrefix .= '_' . $type['Type']['alias'] .'_' . $this->request->params['by'];
+                    $cacheNamePrefix .= '_' . $type['Type']['alias'] . '_' . $this->request->params['by'];
                 }
                 $this->paginate['page'] = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : 1;
-                $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] .'_' . $this->request->params['by']. '_' . $this->paginate['page'] . '_' . $limit;
-                $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] .'_' . $this->request->params['by']. '_' . $this->paginate['page'] . '_' . $limit . '_paging';
+                $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit;
+                $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit . '_paging';
                 $cacheConfig = 'nodes_index';
                 $nodes = Cache::read($cacheName, $cacheConfig);
                 if (!$nodes) {
@@ -534,7 +556,7 @@ class NodesController extends NodesAppController
         $visibilityRolesField = $Node->escapeField('visibility_roles');
         $this->paginate[$Node->alias]['conditions'] = array(
             $Node->escapeField('status') => $Node->status(),
-            'Node.user_id'=>$this->request->params['user_id'],
+            'Node.user_id' => $this->request->params['user_id'],
             'OR' => array(
                 $visibilityRolesField => '',
                 $visibilityRolesField . ' LIKE' => '%"' . $this->Croogo->roleId() . '"%',
@@ -561,7 +583,7 @@ class NodesController extends NodesAppController
                     'Type.alias' => $this->request->params['named']['type'],
                 ),
                 'cache' => array(
-                    'name' => 'type_' . $this->request->params['named']['type'].'_' . $this->request->params['user_id'],
+                    'name' => 'type_' . $this->request->params['named']['type'] . '_' . $this->request->params['user_id'],
                     'config' => 'nodes_index',
                 ),
             ));
@@ -581,11 +603,11 @@ class NodesController extends NodesAppController
         if ($this->usePaginationCache) {
             $cacheNamePrefix = 'nodes_index_' . $this->Croogo->roleId() . '_' . Configure::read('Config.language');
             if (isset($type)) {
-                $cacheNamePrefix .= '_' . $type['Type']['alias'].'_' . $this->request->params['user_id'];
+                $cacheNamePrefix .= '_' . $type['Type']['alias'] . '_' . $this->request->params['user_id'];
             }
             $this->paginate['page'] = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : 1;
-            $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] .'_' . $this->request->params['user_id']. '_' . $this->paginate['page'] . '_' . $limit;
-            $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] .'_' . $this->request->params['user_id']. '_' . $this->paginate['page'] . '_' . $limit . '_paging';
+            $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['user_id'] . '_' . $this->paginate['page'] . '_' . $limit;
+            $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['user_id'] . '_' . $this->paginate['page'] . '_' . $limit . '_paging';
             $cacheConfig = 'nodes_index';
             $nodes = Cache::read($cacheName, $cacheConfig);
             if (!$nodes) {
@@ -600,7 +622,7 @@ class NodesController extends NodesAppController
             $nodes = $this->paginate($Node->alias);
         }
 
-        $this->set('user_id',$this->request->params['user_id']);
+        $this->set('user_id', $this->request->params['user_id']);
         $this->set(compact('type', 'nodes'));
         $this->Croogo->viewFallback(array(
             'index_' . $type['Type']['alias'],
@@ -941,7 +963,7 @@ class NodesController extends NodesAppController
             $slug = $this->make_title_furl($this->request->data['Node']['title']);
             //$this->Node->setCaptcha('security_code', $this->Captcha->getCode('Node.security_code'));
             $this->Node->set(array('Node' => array(
-               // 'security_code' => $this->request->data['Node']['security_code'],
+                // 'security_code' => $this->request->data['Node']['security_code'],
                 'slug' => $slug,
             )));
             if ($this->Node->validates()) {
@@ -1094,11 +1116,12 @@ class NodesController extends NodesAppController
 
         return false;
     }
+
     public function sitemap()
     {
         $nodes = $this->Node->find('all', array(
             'conditions' => array(
-                'Node.type' =>  'clip',
+                'Node.type' => 'clip',
                 'Node.status <>' => '0'
             )
         ));
@@ -1106,6 +1129,7 @@ class NodesController extends NodesAppController
         $this->set(compact('nodes'));
         $this->RequestHandler->respondAs('application/xml');
     }
+
     public function make_title_furl($text)
     {
         $text = preg_replace('/ä|æ|ǽ/', 'ae', $text);
