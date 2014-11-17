@@ -15,6 +15,52 @@ if(isset($nextNprev['next']['Node']['url']))
         var link = '<?php echo urlencode($this->Html->url($this->Nodes->field('url'),true));?>';
         var postNew = '<?php echo $this->Html->url(array('plugin'=>'nodes','controller'=>'nodes','action'=>'index'));?>';
     </script>
+    <?php
+    if($this->Session->read('Auth.User.role_id')==1){
+        ?>
+        <div class="text-right">
+            <a href="<?php
+            echo $this->Html->url(array(
+                'admin'=>true,
+                'plugin'=>'nodes',
+                'controller'=>'nodes',
+                'action'=>'users_posts',
+                '?'=>array('status'=>2))
+            );
+            ?>" class="btn btn-danger">Quay lại Admin</a>
+            <?php
+                if($this->Nodes->field('status')==2){
+                    ?>
+                    <a href="<?php
+                    echo $this->Html->url(array(
+                        'admin'=>true,
+                        'plugin'=>'nodes',
+                        'controller'=>'nodes',
+                        'action'=>'approve_post',
+                        $this->Nodes->field('id'),
+                        '?'=>array('url'=>$this->Html->url($this->Nodes->field('url')))
+                    ))
+                    ?>" class="btn btn-success">Duyệt bài</a>
+                <?php
+                }else{
+                    ?>
+                    <a href="javascript:;" class="btn btn-warning">Đã duyệt</a>
+                <?php
+                }
+            ?>
+            <?php
+            if($this->Nodes->field('status')==1){
+            if($this->Nodes->field('comments_fbid')){
+                ?>
+                <a href="https://developers.facebook.com/tools/explorer/145634995501895/?method=POST&path=<?php echo $this->Nodes->field('comments_fbid'); ?>" class="btn btn-info" target="_blank">Ghi nhớ lên FACEBOOK</a>
+            <?php
+            }
+            }
+            ?>
+        </div>
+    <?php
+    }
+    ?>
     <div id="node-<?php echo $this->Nodes->field('id'); ?>"
          class="node node-type-<?php echo $this->Nodes->field('type'); ?> node-block">
         <h2 class="view-title"><?php echo $this->Nodes->field('title'); ?></h2>

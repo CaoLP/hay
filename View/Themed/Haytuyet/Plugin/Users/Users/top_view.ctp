@@ -16,7 +16,7 @@
                                 <div class="info">
                                     <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-thumbs-up"></i> <?php
                                         if($user[0]['total'] >= 1000){
-                                            echo ($user[0]['total']/1000);
+                                            echo round($user[0]['total']/1000,4);
                                             echo 'k';
                                         }else{
                                             echo $user[0]['total'];
@@ -55,7 +55,7 @@
                                 <div class="info">
                                     <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-bookmark"></i> <?php
                                         if($user[0]['total'] >= 1000){
-                                            echo ($user[0]['total']/1000);
+                                            echo round($user[0]['total']/1000,4);
                                             echo 'k';
                                         }else{
                                             echo $user[0]['total'];

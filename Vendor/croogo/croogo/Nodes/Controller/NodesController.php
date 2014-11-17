@@ -234,6 +234,26 @@ class NodesController extends NodesAppController
         ));
         $this->set(compact('types'));
     }
+    public function admin_approve_post($id=null)
+    {
+        $url = '/admin/nodes/nodes/users_posts?status=2';
+        if(isset($this->request->query['url'])){
+            $url = $this->request->query['url'];
+        }
+        if (!$id) {
+            $this->Session->setFlash(__d('croogo', 'Invalid id for Node'), 'flash', array('class' => 'error'));
+            return $this->redirect($url);
+        }
+        $Node = $this->{$this->modelClass};
+        $Node->id = $id;
+        $typeAlias = $Node->field('type');
+        $saveData = array('Node'=>array(
+            'id' => $id,
+            'status'=>1,
+        ));
+        $Node->saveNode($saveData, $typeAlias);
+        return $this->redirect($url);
+    }
 
     /**
      * Admin add
@@ -917,6 +937,8 @@ class NodesController extends NodesAppController
 
     public function update_view($id = null)
     {
+        if($this->request->isAjax()){
+//        if($this->Session->read('Auth.User.role_id')!=1){
         if ($id != null) {
             $this->Node->updateAll(
                 array('Node.counts' => 'Node.counts+1'),
@@ -926,21 +948,23 @@ class NodesController extends NodesAppController
         if ($id != null) {
             if (isset($this->request->query['url'])) {
                 $url = urldecode($this->request->query['url']);
-                //$content = file_get_contents('http://api.facebook.com/restserver.php?method=links.getStats&format=json&urls=' . $url);
-                $content = file_get_contents(
-                    'http://free.sharedcount.com/url?url='
-                    . $url.'&apikey=479dfb502221d2b4c4a0433c600e16ba5dc0df4e');
-                print_r($content);
-                $json_content = json_decode($content, true);
+                $content = file_get_contents('http://api.facebook.com/restserver.php?method=links.getStats&format=json&urls=' . $url);
+//                $content = file_get_contents(
+//                    'http://free.sharedcount.com/url?url='
+//                    . $url.'&apikey=479dfb502221d2b4c4a0433c600e16ba5dc0df4e');
+//                print_r($content);
+                $json_content = json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
                 if (Cache::read('fb_post' . $id, 'long')) {
                     $old_content = Cache::read('fb_post' . $id, 'long');
                     if ($content != $old_content) {
-                        if (isset($json_content['Facebook']['like_count'])) {
+                        if (isset($json_content[0]['like_count'])) {
                             $this->Node->updateAll(
                                 array(
-                                    'Node.likes' => $json_content['Facebook']['like_count'],
-                                    'Node.comments' => $json_content['Facebook']['commentsbox_count'],
-                                    'Node.shares' => $json_content['Facebook']['share_count']),
+                                    'Node.likes' => $json_content[0]['like_count'],
+                                    'Node.comments' => $json_content[0]['commentsbox_count'],
+                                    'Node.shares' => $json_content[0]['share_count'],
+                                    'Node.comments_fbid' => $json_content[0]['comments_fbid']
+                                ),
                                 array('Node.id' => $id)
                             );
                         }
@@ -949,18 +973,24 @@ class NodesController extends NodesAppController
 
                     }
                 } else {
-                    if (isset($json_content['Facebook']['like_count'])) {
+                    if (isset($json_content[0]['like_count'])) {
                         $this->Node->updateAll(
                             array(
-                                'Node.likes' => $json_content['Facebook']['like_count'],
-                                'Node.comments' => $json_content['Facebook']['commentsbox_count'],
-                                'Node.shares' => $json_content['Facebook']['share_count']),
+                                'Node.likes' => $json_content[0]['like_count'],
+                                'Node.comments' => $json_content[0]['commentsbox_count'],
+                                'Node.shares' => $json_content[0]['share_count'],
+                                'Node.comments_fbid' => $json_content[0]['comments_fbid']
+                            ),
                             array('Node.id' => $id)
                         );
                     }
                     Cache::write('fb_post' . $id, $content, 'long');
                 }
             }
+        }
+//        }else echo 1;
+        }else{
+            echo 'not allow';
         }
         die;
     }

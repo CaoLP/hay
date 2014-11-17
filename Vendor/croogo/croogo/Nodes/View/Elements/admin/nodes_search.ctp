@@ -35,6 +35,7 @@ $url = isset($url) ? $url : array('action' => 'index');
 			'options' => array(
 				'1' => __d('croogo', 'Published'),
 				'0' => __d('croogo', 'Unpublished'),
+				'2' => __d('croogo', 'Preview'),
 			),
 			'empty' => __d('croogo', 'Status'),
 		));

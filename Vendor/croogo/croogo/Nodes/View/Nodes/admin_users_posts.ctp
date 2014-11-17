@@ -15,7 +15,7 @@ $this->append('actions');
 	);
 $this->end();
 
-$this->append('search', $this->element('admin/nodes_search'));
+$this->append('search', $this->element('admin/nodes_search',array('url'=>array('action'=>'users_posts'))));
 
 $this->append('form-start', $this->Form->create(
 	'Node',
@@ -83,6 +83,15 @@ $this->append('table-body');
 				));
 			?>
 		</td>
+        <td>
+            <?php if($node['Node']['comments_fbid']){
+             ?>
+                <a href="https://developers.facebook.com/tools/explorer/145634995501895/?method=POST&path=<?php echo $node['Node']['comments_fbid']; ?>">
+                    Ghi nhớ lên FACEBOOK
+                </a>
+            <?php
+            } ?>
+        </td>
 		<td>
 			<div class="item-actions">
 			<?php

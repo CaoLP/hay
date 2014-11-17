@@ -28,6 +28,9 @@ CroogoNav::add('sidebar', 'content', array(
                 'plugin' => 'nodes',
                 'controller' => 'nodes',
                 'action' => 'users_posts',
+                '?' => array(
+                    'status'=>2
+                ),
             ),
             'weight' => 10,
         ),
