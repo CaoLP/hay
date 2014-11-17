@@ -926,14 +926,21 @@ class NodesController extends NodesAppController
         if ($id != null) {
             if (isset($this->request->query['url'])) {
                 $url = urldecode($this->request->query['url']);
-                $content = file_get_contents('http://api.facebook.com/restserver.php?method=links.getStats&format=json&urls=' . $url);
+                //$content = file_get_contents('http://api.facebook.com/restserver.php?method=links.getStats&format=json&urls=' . $url);
+                $content = file_get_contents(
+                    'http://free.sharedcount.com/url?url='
+                    . $url.'&apikey=479dfb502221d2b4c4a0433c600e16ba5dc0df4e');
+                print_r($content);
                 $json_content = json_decode($content, true);
                 if (Cache::read('fb_post' . $id, 'long')) {
                     $old_content = Cache::read('fb_post' . $id, 'long');
                     if ($content != $old_content) {
-                        if (isset($json_content[0]['like_count'])) {
+                        if (isset($json_content['Facebook']['like_count'])) {
                             $this->Node->updateAll(
-                                array('Node.likes' => $json_content[0]['like_count'], 'Node.comments' => $json_content[0]['comment_count'], 'Node.shares' => $json_content[0]['share_count']),
+                                array(
+                                    'Node.likes' => $json_content['Facebook']['like_count'],
+                                    'Node.comments' => $json_content['Facebook']['commentsbox_count'],
+                                    'Node.shares' => $json_content['Facebook']['share_count']),
                                 array('Node.id' => $id)
                             );
                         }
@@ -942,9 +949,12 @@ class NodesController extends NodesAppController
 
                     }
                 } else {
-                    if (isset($json_content[0]['like_count'])) {
+                    if (isset($json_content['Facebook']['like_count'])) {
                         $this->Node->updateAll(
-                            array('Node.likes' => $json_content[0]['like_count'], 'Node.comments' => $json_content[0]['comment_count'], 'Node.shares' => $json_content[0]['share_count']),
+                            array(
+                                'Node.likes' => $json_content['Facebook']['like_count'],
+                                'Node.comments' => $json_content['Facebook']['commentsbox_count'],
+                                'Node.shares' => $json_content['Facebook']['share_count']),
                             array('Node.id' => $id)
                         );
                     }

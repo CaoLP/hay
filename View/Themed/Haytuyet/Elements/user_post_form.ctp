@@ -54,17 +54,15 @@
                 <div class="form-group">
                     <h3>Nội quy đăng bài</h3>
                     <div class="well well-lg">
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Các bạn xem kỹ trước khi đăng bài nếu không bài đăng của bạn sẽ bị xóa.</em></p>
                         <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Tiêu đề tiếng Việt cần phải có dấu. Bài viết tiêu đề
                                 không dấu sẽ bị xóa.</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng Video đã bị trùng</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng video tự sướng, dìm hàng</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng video trái với thuần phong mỹ tục</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng video liên quan đến các vấn đề chính trị,
-                                tôn giáo</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Đăng video phản động, đồi trụy sẽ bị khóa tài khoản
-                                ngay lập tức.</em></p>
-                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Hãy đặt tiêu đề và mô tả một cách sáng tạo. Tránh đặt
-                                kiểu như: "hay vãi", "chuẩn", ":))"...Không đặt tiêu đề câu like hay có chữ câu like trong bài.</em></p>
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng Video đã bị trùng. Hạn chế đăng clip LMHT, 1 ngày chỉ được đăng 3 clip LMHT </em></p>
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng video tự sướng, dìm hàng, phản động, đồi trụy, trái với thuần phong mỹ tục</em></p>
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Không đăng video liên quan đến các vấn đề chính trị,tôn giáo</em></p>
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Video của bạn phải đặc sắc, hấp dẫn hoặc hài hước và phải từ 360p trở lên</em></p>
+                        <p><em style="font-size: 11px"><i class="fa fa-bookmark"></i> Hãy đặt tiêu đề một cách sáng tạo. Tránh đặt
+                                kiểu như: "hay vãi", "chuẩn", ":))"...Không đặt tiêu đề câu like.</em></p>
                     </div>
                 </div>
             </div>
