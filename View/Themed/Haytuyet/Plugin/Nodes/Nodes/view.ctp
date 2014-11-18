@@ -71,6 +71,14 @@ if(isset($nextNprev['next']['Node']['url']))
                         <?php
                         }
                     }
+                    echo ' ' . $this->Croogo->adminRowAction('Xoá bài',
+                            '/admin/nodes/nodes/userpost_delete/'.$node['Node']['id'].'?'.'receive_id='. $node['Node']['user_id'].'&'.'title='.$node['Node']['title'],
+                            array(
+                                'class' => 'delete btn btn-danger',
+                                'tooltip' => __d('croogo', 'Remove this item'),
+                            ),
+                            __d('croogo', 'Are you sure?')
+                        );
                     ?>
                 </div>
             </div>

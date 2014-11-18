@@ -120,7 +120,6 @@ class NodesController extends NodesAppController
             $status = (int)!$status;
             $this->layout = 'ajax';
             if ($this->Node->saveField('status', $status)) {
-
                 $this->loadModel('Users.UserMessage');
                 $message = 'Bài <strong>"' . $title . '"</strong> của bạn đã được duyệt';
                 if ($status == 0) {
@@ -237,22 +236,27 @@ class NodesController extends NodesAppController
     public function admin_approve_post($id=null)
     {
         if($this->request->isAjax()){
-//            if(isset($this->request->query['image'])){
-//                $this->loadModel('Meta.Meta');
-//                if($this->Meta->updateAll(
-//                    array(
-//                        'Meta.value = \''.$this->request->query['image'].'\'',
-//                    ),
-//                    array(
-//                        'AND' => array(
-//                            'Meta.model'=>'Node',
-//                            'Meta.key'=>'image',
-//                            'Meta.foreign_key'=>$id
-//                        )
-//                    ))
-//                ) echo 1;
-//                else echo 0;
-//            }else echo 0;
+            if(isset($this->request->query['image'])){
+                $this->loadModel('Meta.Meta');
+                $meta = $this->Meta->find('first',array('conditions'=>array(
+                    'Meta.model'=>'Node',
+                    'Meta.key'=>'image',
+                    'Meta.foreign_key'=>$id
+                )));
+                $saveData = array(
+                    'Meta'=>array(
+                        'model'=>'Node',
+                        'key'=>'image',
+                        'foreign_key'=>$id,
+                        'value'=>$this->request->query['image'],
+                    )
+                );
+                if(count($meta)>0){
+                    $saveData['Meta']['id']=$meta['Meta']['id'];
+                }
+                if($this->Meta->save($saveData)) echo 1;
+                else echo 0;
+            }else echo 0;
             die;
         }else{
             $url = '/admin/nodes/nodes/users_posts?status=2';
@@ -270,7 +274,18 @@ class NodesController extends NodesAppController
                 'id' => $id,
                 'status'=>1,
             ));
-            $Node->saveNode($saveData, $typeAlias);
+            $title = $Node->field('title');
+            $receive_id = $Node->field('user_id');
+            if($Node->saveNode($saveData, $typeAlias)){
+                $this->loadModel('Users.UserMessage');
+                $message = 'Bài <strong>"' . $title . '"</strong> của bạn đã được duyệt';
+                $saveData = array('UserMessage' => array(
+                    'user_id' => $this->Session->read('Auth.User.id'),
+                    'receive_id' => $receive_id,
+                    'message' => $message,
+                ));
+                $this->UserMessage->save($saveData);
+            };
             return $this->redirect($url);
         }
     }
@@ -403,7 +418,7 @@ class NodesController extends NodesAppController
                 $this->UserMessage->save($saveData);
             }
         }
-        return $this->redirect(array('action' => 'users_posts'));
+        return $this->redirect(array('admin'=>true,'plugin'=>'nodes','controller'=>'nodes','action' => 'users_posts','?'=>array('status'=>'2')));
     }
 
     public function admin_delete($id = null)

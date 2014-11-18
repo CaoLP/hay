@@ -2,17 +2,18 @@ var running = false;
 $(document).ready(function(){
     genImagecb(youtube_id);
     $(document).on('click','.youtube_radio',function(){
+        var img = $(this).data('value');
         if(!running)
         $.ajax({
             url:updateImg,
-            data: {image:$(this).data('value')},
+            data: {image:img},
             beforeSend : function(){
                 running = true;
             },
             success:function(data){
                 running = false;
                 if(data==1){
-                    $('#cur_img').attr('src',$(this).data('value'));
+                    $('#cur_img img').attr('src',img);
                 }
             }
         });
