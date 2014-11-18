@@ -122,6 +122,7 @@ $(document).ready(function () {
 
     });
     function fixCenter(){
+        if(typeof youtube_id != 'undefined') return false;
         var parentHeight = $('#view-video').height();
         var parentWidth = $('#view-video').width();
         var childHeight = $('.play-btn').height();

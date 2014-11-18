@@ -17,47 +17,84 @@ if(isset($nextNprev['next']['Node']['url']))
     </script>
     <?php
     if($this->Session->read('Auth.User.role_id')==1){
+        $this->Html->script(array('post'),array('inline'=>false));
         ?>
-        <div class="text-right">
-            <a href="<?php
+        <script>
+            var youtube_id = '<?php echo $this->Nodes->field('CustomFields.youtube_clip');?>';
+            var updateImg = '<?php
             echo $this->Html->url(array(
-                'admin'=>true,
-                'plugin'=>'nodes',
-                'controller'=>'nodes',
-                'action'=>'users_posts',
-                '?'=>array('status'=>2))
-            );
-            ?>" class="btn btn-danger">Quay lại Admin</a>
-            <?php
-                if($this->Nodes->field('status')==2){
-                    ?>
+                            'admin'=>true,
+                            'plugin'=>'nodes',
+                            'controller'=>'nodes',
+                            'action'=>'approve_post',
+                            $this->Nodes->field('id'),
+                        ));
+            ?>'
+        </script>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-right">
                     <a href="<?php
                     echo $this->Html->url(array(
-                        'admin'=>true,
-                        'plugin'=>'nodes',
-                        'controller'=>'nodes',
-                        'action'=>'approve_post',
-                        $this->Nodes->field('id'),
-                        '?'=>array('url'=>$this->Html->url($this->Nodes->field('url')))
-                    ))
-                    ?>" class="btn btn-success">Duyệt bài</a>
-                <?php
-                }else{
+                            'admin'=>true,
+                            'plugin'=>'nodes',
+                            'controller'=>'nodes',
+                            'action'=>'users_posts',
+                            '?'=>array('status'=>2))
+                    );
+                    ?>" class="btn btn-danger">Quay lại Admin</a>
+                    <?php
+                    if($this->Nodes->field('status')==2){
+                        ?>
+                        <a href="<?php
+                        echo $this->Html->url(array(
+                            'admin'=>true,
+                            'plugin'=>'nodes',
+                            'controller'=>'nodes',
+                            'action'=>'approve_post',
+                            $this->Nodes->field('id'),
+                            '?'=>array('url'=>$this->Html->url($this->Nodes->field('url')))
+                        ))
+                        ?>" class="btn btn-success">Duyệt bài</a>
+                    <?php
+                    }else{
+                        ?>
+                        <a href="javascript:;" class="btn btn-warning">Đã duyệt</a>
+                    <?php
+                    }
                     ?>
-                    <a href="javascript:;" class="btn btn-warning">Đã duyệt</a>
-                <?php
-                }
-            ?>
-            <?php
-            if($this->Nodes->field('status')==1){
-            if($this->Nodes->field('comments_fbid')){
-                ?>
-                <a href="https://developers.facebook.com/tools/explorer/145634995501895/?method=POST&path=<?php echo $this->Nodes->field('comments_fbid'); ?>" class="btn btn-info" target="_blank">Ghi nhớ lên FACEBOOK</a>
-            <?php
-            }
-            }
-            ?>
+                    <?php
+                    if($this->Nodes->field('status')==1){
+                        if($this->Nodes->field('comments_fbid')){
+                            ?>
+                            <a href="https://developers.facebook.com/tools/explorer/145634995501895/?method=POST&path=<?php echo $this->Nodes->field('comments_fbid'); ?>" class="btn btn-info" target="_blank">Ghi nhớ lên FACEBOOK</a>
+                        <?php
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <strong>Ảnh hiện tại</strong>
+                <hr>
+                <div id="cur_img" class="text-center">
+                    <img height="90" src="<?php echo $this->Nodes->field('CustomFields.image');?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+                <strong>Ảnh thư viện</strong>
+                <hr>
+                <div id="youtube_img"></div>
+                <hr>
+            </div>
+        </div>
+
     <?php
     }
     ?>

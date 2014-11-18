@@ -236,23 +236,43 @@ class NodesController extends NodesAppController
     }
     public function admin_approve_post($id=null)
     {
-        $url = '/admin/nodes/nodes/users_posts?status=2';
-        if(isset($this->request->query['url'])){
-            $url = $this->request->query['url'];
-        }
-        if (!$id) {
-            $this->Session->setFlash(__d('croogo', 'Invalid id for Node'), 'flash', array('class' => 'error'));
+        if($this->request->isAjax()){
+//            if(isset($this->request->query['image'])){
+//                $this->loadModel('Meta.Meta');
+//                if($this->Meta->updateAll(
+//                    array(
+//                        'Meta.value = \''.$this->request->query['image'].'\'',
+//                    ),
+//                    array(
+//                        'AND' => array(
+//                            'Meta.model'=>'Node',
+//                            'Meta.key'=>'image',
+//                            'Meta.foreign_key'=>$id
+//                        )
+//                    ))
+//                ) echo 1;
+//                else echo 0;
+//            }else echo 0;
+            die;
+        }else{
+            $url = '/admin/nodes/nodes/users_posts?status=2';
+            if(isset($this->request->query['url'])){
+                $url = $this->request->query['url'];
+            }
+            if (!$id) {
+                $this->Session->setFlash(__d('croogo', 'Invalid id for Node'), 'flash', array('class' => 'error'));
+                return $this->redirect($url);
+            }
+            $Node = $this->{$this->modelClass};
+            $Node->id = $id;
+            $typeAlias = $Node->field('type');
+            $saveData = array('Node'=>array(
+                'id' => $id,
+                'status'=>1,
+            ));
+            $Node->saveNode($saveData, $typeAlias);
             return $this->redirect($url);
         }
-        $Node = $this->{$this->modelClass};
-        $Node->id = $id;
-        $typeAlias = $Node->field('type');
-        $saveData = array('Node'=>array(
-            'id' => $id,
-            'status'=>1,
-        ));
-        $Node->saveNode($saveData, $typeAlias);
-        return $this->redirect($url);
     }
 
     /**

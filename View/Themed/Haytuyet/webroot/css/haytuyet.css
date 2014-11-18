@@ -582,3 +582,11 @@ h3.topUsers {
     padding-top: 0px;
     border-top: none;
 }
+div#youtube_img{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.y-img{
+    display: inline-block;
+    margin: 5px;
+}
