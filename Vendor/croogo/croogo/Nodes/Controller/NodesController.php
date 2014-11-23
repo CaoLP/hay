@@ -504,93 +504,99 @@ class NodesController extends NodesAppController
      */
     public function index()
     {
-        if (!isset($this->request->params['named']['type'])) {
-            $this->request->params['named']['type'] = 'clip';
-        }
-        if (!isset($this->request->params['by'])) {
-            $this->request->params['by'] = 'created';
-        }
-        if ($this->request->isAjax()) {
-            $this->layout = 'ajax';
-            $new_nodes = $this->Node->findNewNodes(12, 'clip');
-            $this->view = 'new_ajax';
-            $this->set(compact('new_nodes'));
-        } else {
-            $Node = $this->{$this->modelClass};
-            $this->paginate[$Node->alias]['order'] = $Node->escapeField($this->request->params['by']) . ' DESC';
-            $visibilityRolesField = $Node->escapeField('visibility_roles');
-            $this->paginate[$Node->alias]['conditions'] = array(
-                $Node->escapeField('status') => $Node->status(),
-                'OR' => array(
-                    $visibilityRolesField => '',
-                    $visibilityRolesField . ' LIKE' => '%"' . $this->Croogo->roleId() . '"%',
-                ),
-            );
-
-            if (isset($this->request->params['named']['limit'])) {
-                $limit = $this->request->params['named']['limit'];
+        if(isset($this->request->query['random'])){
+            $new_nodes = $this->Node->findRandomNodes(12, 'clip');
+            echo json_encode($new_nodes);die;
+        }else{
+            if (!isset($this->request->params['named']['type'])) {
+                $this->request->params['named']['type'] = 'clip';
+            }
+            if (!isset($this->request->params['by'])) {
+                $this->request->params['by'] = 'created';
+            }
+            if ($this->request->isAjax()) {
+                $this->layout = 'ajax';
+                $new_nodes = $this->Node->findNewNodes(12, 'clip');
+                $this->view = 'new_ajax';
+                $this->set(compact('new_nodes'));
             } else {
-                $limit = Configure::read('Reading.nodes_per_page');
-            }
-
-            $this->paginate[$Node->alias]['contain'] = array(
-                'Meta',
-                'Taxonomy' => array(
-                    'Term',
-                    'Vocabulary',
-                ),
-                'User',
-            );
-            if (isset($this->request->params['named']['type'])) {
-                $type = $Node->Taxonomy->Vocabulary->Type->find('first', array(
-                    'conditions' => array(
-                        'Type.alias' => $this->request->params['named']['type'],
+                $Node = $this->{$this->modelClass};
+                $this->paginate[$Node->alias]['order'] = $Node->escapeField($this->request->params['by']) . ' DESC';
+                $visibilityRolesField = $Node->escapeField('visibility_roles');
+                $this->paginate[$Node->alias]['conditions'] = array(
+                    $Node->escapeField('status') => $Node->status(),
+                    'OR' => array(
+                        $visibilityRolesField => '',
+                        $visibilityRolesField . ' LIKE' => '%"' . $this->Croogo->roleId() . '"%',
                     ),
-                    'cache' => array(
-                        'name' => 'type_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'],
-                        'config' => 'nodes_index',
-                    ),
-                ));
-                if (!isset($type['Type']['id'])) {
-                    $this->Session->setFlash(__d('croogo', 'Invalid content type.'), 'flash', array('class' => 'error'));
-                    return $this->redirect('/');
-                }
-                if (isset($type['Params']['nodes_per_page']) && empty($this->request->params['named']['limit'])) {
-                    $limit = $type['Params']['nodes_per_page'];
-                }
-                $this->paginate[$Node->alias]['conditions']['Node.type'] = $type['Type']['alias'];
-                $this->set('title_for_layout', $type['Type']['title']);
-            }
+                );
 
-            $this->paginate[$Node->alias]['limit'] = $limit;
-
-            if ($this->usePaginationCache) {
-                $cacheNamePrefix = 'nodes_index_' . $this->Croogo->roleId() . '_' . Configure::read('Config.language');
-                if (isset($type)) {
-                    $cacheNamePrefix .= '_' . $type['Type']['alias'] . '_' . $this->request->params['by'];
-                }
-                $this->paginate['page'] = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : 1;
-                $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit;
-                $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit . '_paging';
-                $cacheConfig = 'nodes_index';
-                $nodes = Cache::read($cacheName, $cacheConfig);
-                if (!$nodes) {
-                    $nodes = $this->paginate($Node->alias);
-                    Cache::write($cacheName, $nodes, $cacheConfig);
-                    Cache::write($cacheNamePaging, $this->request->params['paging'], $cacheConfig);
+                if (isset($this->request->params['named']['limit'])) {
+                    $limit = $this->request->params['named']['limit'];
                 } else {
-                    $paging = Cache::read($cacheNamePaging, $cacheConfig);
-                    $this->request->params['paging'] = $paging;
+                    $limit = Configure::read('Reading.nodes_per_page');
                 }
-            } else {
-                $nodes = $this->paginate($Node->alias);
-            }
 
-            $this->set(compact('type', 'nodes'));
-            $this->Croogo->viewFallback(array(
-                'index_' . $type['Type']['alias'],
-            ));
+                $this->paginate[$Node->alias]['contain'] = array(
+                    'Meta',
+                    'Taxonomy' => array(
+                        'Term',
+                        'Vocabulary',
+                    ),
+                    'User',
+                );
+                if (isset($this->request->params['named']['type'])) {
+                    $type = $Node->Taxonomy->Vocabulary->Type->find('first', array(
+                        'conditions' => array(
+                            'Type.alias' => $this->request->params['named']['type'],
+                        ),
+                        'cache' => array(
+                            'name' => 'type_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'],
+                            'config' => 'nodes_index',
+                        ),
+                    ));
+                    if (!isset($type['Type']['id'])) {
+                        $this->Session->setFlash(__d('croogo', 'Invalid content type.'), 'flash', array('class' => 'error'));
+                        return $this->redirect('/');
+                    }
+                    if (isset($type['Params']['nodes_per_page']) && empty($this->request->params['named']['limit'])) {
+                        $limit = $type['Params']['nodes_per_page'];
+                    }
+                    $this->paginate[$Node->alias]['conditions']['Node.type'] = $type['Type']['alias'];
+                    $this->set('title_for_layout', $type['Type']['title']);
+                }
+
+                $this->paginate[$Node->alias]['limit'] = $limit;
+
+                if ($this->usePaginationCache) {
+                    $cacheNamePrefix = 'nodes_index_' . $this->Croogo->roleId() . '_' . Configure::read('Config.language');
+                    if (isset($type)) {
+                        $cacheNamePrefix .= '_' . $type['Type']['alias'] . '_' . $this->request->params['by'];
+                    }
+                    $this->paginate['page'] = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : 1;
+                    $cacheName = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit;
+                    $cacheNamePaging = $cacheNamePrefix . '_' . $this->request->params['named']['type'] . '_' . $this->request->params['by'] . '_' . $this->paginate['page'] . '_' . $limit . '_paging';
+                    $cacheConfig = 'nodes_index';
+                    $nodes = Cache::read($cacheName, $cacheConfig);
+                    if (!$nodes) {
+                        $nodes = $this->paginate($Node->alias);
+                        Cache::write($cacheName, $nodes, $cacheConfig);
+                        Cache::write($cacheNamePaging, $this->request->params['paging'], $cacheConfig);
+                    } else {
+                        $paging = Cache::read($cacheNamePaging, $cacheConfig);
+                        $this->request->params['paging'] = $paging;
+                    }
+                } else {
+                    $nodes = $this->paginate($Node->alias);
+                }
+
+                $this->set(compact('type', 'nodes'));
+                $this->Croogo->viewFallback(array(
+                    'index_' . $type['Type']['alias'],
+                ));
+            }
         }
+
     }
 
     /**
