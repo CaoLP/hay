@@ -8,7 +8,7 @@
 <div class="badge-item-vote-container post-afterbar-a in-list-view  ">
     <div class="vote">
         <div class="pull-left">
-            <div class="fb-like" data-href="https://www.facebook.com/haytuyetcom" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+            <div class="fb-like" data-href="https://www.facebook.com/haytuyetcom" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
         </div>
         <ul class="btn-vote text-center pull-right">
             <li><a class="badge-item-vote-up up " href="#node-<?php echo $keys[$this->Nodes->field('id')]['prev'];?>" title="Lên trên"><i class="fa fa-arrow-up"></i></a></li>
