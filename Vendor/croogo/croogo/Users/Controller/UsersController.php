@@ -691,7 +691,8 @@ class UsersController extends UsersAppController {
                     'alias'=>'User',
                     'type'=>'INNER',
                     'conditions' =>array(
-                        'Node.user_id = User.id'
+                        'Node.user_id = User.id',
+                        'User.role_id <> 1',
                     )
                 )
             ),
@@ -714,7 +715,8 @@ class UsersController extends UsersAppController {
                     'alias'=>'User',
                     'type'=>'INNER',
                     'conditions' =>array(
-                        'Node.user_id = User.id'
+                        'Node.user_id = User.id',
+                        'User.role_id <> 1',
                     )
                 )
             ),

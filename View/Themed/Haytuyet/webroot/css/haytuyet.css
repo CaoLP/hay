@@ -308,7 +308,7 @@ element.style {
         padding-right: 15px;
     }
 }
-@media (max-width: 990px)  {
+@media (max-width: 1990px)  {
     .view-title{
         position: relative;
     }
@@ -327,13 +327,13 @@ element.style {
         padding-right: 20px;
         max-width: 1366px;
     }
-    #view-video{
-        display: block;
-        max-height: 405px;
-    }
-    .video-img{
-        margin-top: -25px;
-    }
+    /*#view-video{*/
+        /*display: block;*/
+        /*max-height: 405px;*/
+    /*}*/
+    /*.video-img{*/
+        /*margin-top: -25px;*/
+    /*}*/
     .col-md-3.new-post-item {
         width: 25%;
     }
