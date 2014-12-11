@@ -680,7 +680,7 @@ class UsersController extends UsersAppController {
         $this->loadModel('Node');
         $this->Node->Behaviors->enabled('Publishable',true);
         $top_likes = $this->Node->find('all',array(
-            'fields' => 'sum(Node.likes) as total,User.name,User.id,User.image,User.username',
+            'fields' => 'sum(Node.shares) as total,User.name,User.id,User.image,User.username',
             'conditions' => array(
                 'MONTH(`Node`.`created`) = MONTH(CURRENT_DATE) AND YEAR(`Node`.`created`) = YEAR(CURRENT_DATE)',
                 'Node.status'=>'1'

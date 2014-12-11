@@ -702,9 +702,11 @@ class Node extends NodesAppModel
         return $result;
     }
     public function findNewNodes($limit,$type){
+        $this->Behaviors->enabled('Publishable',true);
         $this->belongsTo = array();
         $this->hasOne = array();
         $result = $this->find('all',array(
+            'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
             'conditions'=>array(
                 'Node.type'=>$type,
                 'Node.status '=>'1'
@@ -717,9 +719,11 @@ class Node extends NodesAppModel
         return $result;
     }
     public function findRandomNodes($limit,$type){
+        $this->Behaviors->enabled('Publishable',true);
         $this->belongsTo = array();
         $this->hasOne = array();
         $result = $this->find('all',array(
+            'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
             'conditions'=>array(
                 'Node.type'=>$type,
                 'Node.status '=>'1'

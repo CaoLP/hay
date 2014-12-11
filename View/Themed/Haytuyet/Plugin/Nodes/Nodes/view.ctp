@@ -122,16 +122,18 @@ if(isset($nextNprev['next']['Node']['url']))
                 <div class="badge-item-vote-container post-afterbar-a in-list-view video-share text-center"
                      id="video-share-a">
                     <div class="share right">
+                        <a href="javascript:void(0);"
+                           class="badge-facebook-share badge-evt badge-track btn-share facebook"
+                           data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Facebook</a>
+                        <a href="javascript:void(0);"
+                           class="badge-twitter-share badge-evt badge-track btn-share twitter"
+                           data-title="<?php echo $this->Nodes->field('title') ?>"
+                           data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Twitter</a>
                         <ul>
-                            <li><a href="javascript:void(0);"
-                                   class="badge-facebook-share badge-evt badge-track btn-share facebook"
-                                   data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Facebook</a>
+                            <li>
                             </li>
 
-                            <li><a href="javascript:void(0);"
-                                   class="badge-twitter-share badge-evt badge-track btn-share twitter"
-                                   data-title="<?php echo $this->Nodes->field('title') ?>"
-                                   data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Twitter</a>
+                            <li>
                             </li>
                         </ul>
                     </div>
@@ -223,12 +225,26 @@ if(isset($nextNprev['next']['Node']['url']))
         </div>
     <?php endif; ?>
     <div class="row">
+        <div class="col-md-12">
+            <h4>Có thể bạn chưa xem</h4>
+        </div>
+        <div class="col-md-12" id="random-posts">
+            <div id="random-loading" class="loading" style="display: none;">
+                <a class="btn spin" href="#">Loading</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Clip mới nhất</h4>
+        </div>
         <div class="col-md-12" id="new-posts">
             <div id="new-loading" class="loading" style="display: none;">
                 <a class="btn spin" href="#">Loading</a>
             </div>
         </div>
     </div>
+
     <div class="modal fade video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -255,16 +271,18 @@ if(isset($nextNprev['next']['Node']['url']))
                                     class="badge-item-vote-container post-afterbar-a in-list-view video-share text-center"
                                     id="video-share-b">
                                     <div class="share right">
+                                        <a href="javascript:void(0);"
+                                           class="badge-facebook-share badge-evt badge-track btn-share facebook"
+                                           data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Facebook</a>
+                                        <a href="javascript:void(0);"
+                                           class="badge-twitter-share badge-evt badge-track btn-share twitter"
+                                           data-title="<?php echo $this->Nodes->field('title') ?>"
+                                           data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Twitter</a>
                                         <ul>
-                                            <li><a href="javascript:void(0);"
-                                                   class="badge-facebook-share badge-evt badge-track btn-share facebook"
-                                                   data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Facebook</a>
+                                            <li>
                                             </li>
 
-                                            <li><a href="javascript:void(0);"
-                                                   class="badge-twitter-share badge-evt badge-track btn-share twitter"
-                                                   data-title="<?php echo $this->Nodes->field('title') ?>"
-                                                   data-share="<?php echo $this->Html->url($this->Nodes->field('url'), true); ?>">Twitter</a>
+                                            <li>
                                             </li>
                                         </ul>
                                     </div>

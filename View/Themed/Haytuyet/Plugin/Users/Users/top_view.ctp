@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h3 class="topUsers">Top like tháng <?php echo date('m')?></h3>
+        <h3 class="topUsers">Top share tháng <?php echo date('m')?></h3>
 
         <div id="topUserContent">
             <ul class="topUsers-list">
@@ -14,7 +14,7 @@
                             </div>
                             <div class="row">
                                 <div class="info">
-                                    <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-thumbs-up"></i> <?php
+                                    <span class="name"><?php echo $user['User']['name'];?></span> <span><i class="fa fa-share-alt"></i> <?php
                                         if($user[0]['total'] >= 1000){
                                             echo round($user[0]['total']/1000,4);
                                             echo 'k';

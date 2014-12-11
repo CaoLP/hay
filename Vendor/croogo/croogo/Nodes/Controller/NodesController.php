@@ -212,7 +212,8 @@ class NodesController extends NodesAppController
 
     public function hot_clip()
     {
-        $hot_nodes = $this->Node->findHotNodes(10);
+//        $hot_nodes = $this->Node->findHotNodes(10);
+        $hot_nodes = $this->Node->findRandomNodes(6, 'clip');
         $this->set(compact('hot_nodes'));
     }
 
@@ -504,9 +505,25 @@ class NodesController extends NodesAppController
      */
     public function index()
     {
-        if(isset($this->request->query['random'])){
-            $new_nodes = $this->Node->findRandomNodes(12, 'clip');
-            echo json_encode($new_nodes);die;
+        if(isset($this->request->query['random']) && !$this->request->isAjax()){
+            $count = $this->Node->find('count',array('conditions'=>array('Node.type'=>'clip','Node.status'=>'1')));
+            $new_nodes = $this->Node->findRandomNodes($count, 'clip');
+            //title,path,images
+            $MONGOLAB_API_KEY = 'm49Rbnq2Rm_QNa_UIHKwOUYgIfdMlB3F';
+            $DB = 'haytuyet';
+            $COLLECTION = 'data';
+            $url = "https://api.mongolab.com/api/1/databases/$DB/collections/$COLLECTION?apiKey=$MONGOLAB_API_KEY";
+            $temp = array();
+            foreach($new_nodes as $key=>$node){
+                $a = array(
+                    'title'=>$node['Node']['title'],
+                    'path'=>$node['Node']['path'],
+                    'image'=>$node['CustomFields']['image'],
+                );
+                $temp[] = $a;
+            }
+            echo json_encode($temp);
+            die;
         }else{
             if (!isset($this->request->params['named']['type'])) {
                 $this->request->params['named']['type'] = 'clip';
@@ -516,7 +533,12 @@ class NodesController extends NodesAppController
             }
             if ($this->request->isAjax()) {
                 $this->layout = 'ajax';
-                $new_nodes = $this->Node->findNewNodes(12, 'clip');
+                if(isset($this->request->query['random'])){
+                    $new_nodes = $this->Node->findRandomNodes(12, 'clip');
+                }
+                else{
+                    $new_nodes = $this->Node->findNewNodes(12, 'clip');
+                }
                 $this->view = 'new_ajax';
                 $this->set(compact('new_nodes'));
             } else {

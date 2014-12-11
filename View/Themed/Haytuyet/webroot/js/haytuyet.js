@@ -4,6 +4,7 @@ var countb=10;
 var countera;
 var counterb;
 $(document).ready(function () {
+    $('#video-share-a').show();
     var wHeight = $('#block-11').height();
 
     $('.video-modal').on('shown.bs.modal', function () {
@@ -52,6 +53,17 @@ $(document).ready(function () {
             success: function (data) {
                 $('#new-loading').hide();
                 $('#new-posts').html(data);
+            }
+        });
+    if (typeof postNew != 'undefined')
+        $.ajax({
+            url: postNew + '?random',
+            beforeSend: function () {
+                $('#random-loading').show();
+            },
+            success: function (data) {
+                $('#random-loading').hide();
+                $('#random-posts').html(data);
             }
         });
     if (typeof userInfo != 'undefined')
