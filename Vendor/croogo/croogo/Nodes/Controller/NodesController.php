@@ -506,13 +506,13 @@ class NodesController extends NodesAppController
     public function index()
     {
         if(isset($this->request->query['random']) && !$this->request->isAjax()){
-            $count = $this->Node->find('count',array('conditions'=>array('Node.type'=>'clip','Node.status'=>'1')));
-            $new_nodes = $this->Node->findRandomNodes($count, 'clip');
+//            $count = $this->Node->find('count',array('conditions'=>array('Node.type'=>'clip','Node.status'=>'1')));
+            $new_nodes = $this->Node->findRandomNodes(20, 'clip');
             //title,path,images
-            $MONGOLAB_API_KEY = 'm49Rbnq2Rm_QNa_UIHKwOUYgIfdMlB3F';
-            $DB = 'haytuyet';
-            $COLLECTION = 'data';
-            $url = "https://api.mongolab.com/api/1/databases/$DB/collections/$COLLECTION?apiKey=$MONGOLAB_API_KEY";
+//            $MONGOLAB_API_KEY = 'm49Rbnq2Rm_QNa_UIHKwOUYgIfdMlB3F';
+//            $DB = 'haytuyet';
+//            $COLLECTION = 'data';
+//            $url = "https://api.mongolab.com/api/1/databases/$DB/collections/$COLLECTION?apiKey=$MONGOLAB_API_KEY";
             $temp = array();
             foreach($new_nodes as $key=>$node){
                 $a = array(
