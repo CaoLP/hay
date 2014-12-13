@@ -10,6 +10,6 @@ App::uses('CroogoAppController', 'Croogo.Controller');
  */
 class AppController extends CroogoAppController {
     public $components = array(
-        'DebugKit.Toolbar',
+//        'DebugKit.Toolbar',
     );
 }

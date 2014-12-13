@@ -213,7 +213,7 @@ class NodesController extends NodesAppController
     public function hot_clip()
     {
 //        $hot_nodes = $this->Node->findHotNodes(10);
-        $hot_nodes = $this->Node->findRandomNodes(6, 'clip');
+        $hot_nodes = $this->Node->findHotNodes(6, 'clip');
         $this->set(compact('hot_nodes'));
     }
 
@@ -507,7 +507,7 @@ class NodesController extends NodesAppController
     {
         if(isset($this->request->query['random']) && !$this->request->isAjax()){
 //            $count = $this->Node->find('count',array('conditions'=>array('Node.type'=>'clip','Node.status'=>'1')));
-            $new_nodes = $this->Node->findRandomNodes(20, 'clip');
+            $new_nodes = $this->Node->findRandomNodesOther(20, 'clip');
             //title,path,images
 //            $MONGOLAB_API_KEY = 'm49Rbnq2Rm_QNa_UIHKwOUYgIfdMlB3F';
 //            $DB = 'haytuyet';

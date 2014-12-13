@@ -32,7 +32,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-Configure::write('debug', 2);
+Configure::write('debug', 0);
 
 /**
  * Configure the Error handler used to handle errors for your application.  By default
@@ -331,4 +331,11 @@ Cache::config ('long', array (
     'path' => CACHE . 'bigcache' . DS,
     'serialize' => ($engine === 'File'),
     'prefix' => 'kao_bigcache_'
+));
+Cache::config ('short_cache', array (
+    'engine' => $engine,
+    'duration' => '+60 seconds',
+    'path' => CACHE . 'shortcache' . DS,
+    'serialize' => ($engine === 'File'),
+    'prefix' => 'kao_short_cache_'
 ));

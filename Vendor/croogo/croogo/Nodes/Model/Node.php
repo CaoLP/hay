@@ -686,59 +686,98 @@ class Node extends NodesAppModel
         }
     }
 
-    public function findHotNodes($limit){
+    public function findHotNodes($limit)
+    {
         $this->belongsTo = array();
         $this->hasOne = array();
-        $result = $this->find('all',array(
-            'conditions'=>array(
-                'Node.type <>'=>'page',
-                'Node.status '=>'1'
-            ),
-            'order'=>array(
-                'Node.counts'=>'DESC'
-            ),
-            'limit'=>$limit
-        ));
+        $result = Cache::read('hot', 'short_cache');
+        if (!$result) {
+            $result = $this->find('all', array(
+                'conditions' => array(
+                    'Node.type <>' => 'page',
+                    'Node.status ' => '1'
+                ),
+                'order' => 'RAND()',
+//                'order' => array(
+//                    'Node.counts' => 'DESC'
+//                ),
+                'limit' => $limit
+            ));
+            Cache::write('hot', $result, 'short_cache');
+        }
         return $result;
     }
-    public function findNewNodes($limit,$type){
-        $this->Behaviors->enabled('Publishable',true);
-        $this->belongsTo = array();
-        $this->hasOne = array();
-        $result = $this->find('all',array(
-            'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
-            'conditions'=>array(
-                'Node.type'=>$type,
-                'Node.status '=>'1'
-            ),
-            'order'=>array(
-                'Node.created'=>'DESC'
-            ),
-            'limit'=>$limit
-        ));
+
+    public function findNewNodes($limit, $type)
+    {
+        $result = Cache::read('new', 'short_cache');
+        if (!$result) {
+            $this->Behaviors->enabled('Publishable', true);
+            $this->belongsTo = array();
+            $this->hasOne = array();
+            $result = $this->find('all', array(
+                'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
+                'conditions' => array(
+                    'Node.type' => $type,
+                    'Node.status ' => '1'
+                ),
+                'order' => array(
+                    'Node.created' => 'DESC'
+                ),
+                'limit' => $limit
+            ));
+            Cache::write('new', $result, 'short_cache');
+        }
         return $result;
     }
-    public function findRandomNodes($limit,$type){
-        $this->Behaviors->enabled('Publishable',true);
-        $this->belongsTo = array();
-        $this->hasOne = array();
-        $result = $this->find('all',array(
-            'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
-            'conditions'=>array(
-                'Node.type'=>$type,
-                'Node.status '=>'1'
-            ),
-            'order' => 'RAND()',
-            'limit'=>$limit
-        ));
+
+    public function findRandomNodes($limit, $type)
+    {
+        $result = Cache::read('random', 'short_cache');
+        if (!$result) {
+            $this->Behaviors->enabled('Publishable', true);
+            $this->belongsTo = array();
+            $this->hasOne = array();
+            $result = $this->find('all', array(
+                'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
+                'conditions' => array(
+                    'Node.type' => $type,
+                    'Node.status ' => '1'
+                ),
+                'order' => 'RAND()',
+                'limit' => $limit
+            ));
+            Cache::write('random', $result, 'short_cache');
+        }
         return $result;
     }
-    public function findNextPrev($node_id){
+    public function findRandomNodesOther($limit, $type)
+    {
+        $result = Cache::read('random', 'short_cache');
+        if (!$result) {
+            $this->Behaviors->enabled('Publishable', true);
+            $this->belongsTo = array();
+            $this->hasOne = array();
+            $result = $this->find('all', array(
+                'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
+                'conditions' => array(
+                    'Node.type' => $type,
+                    'Node.status ' => '1'
+                ),
+                'order' => 'RAND()',
+                'limit' => $limit
+            ));
+            Cache::write('random2', $result, 'short_cache');
+        }
+        return $result;
+    }
+    public function findNextPrev($node_id)
+    {
         $this->belongsTo = array();
         $this->hasMany = array();
         $this->hasOne = array();
         $this->id = $node_id;
-        $result = $this->find('neighbors',array(
+        $result = $this->find('neighbors', array(
             'fields' => 'Node.id,Node.path,Node.type,Node.slug'
         ));
         return $result;
