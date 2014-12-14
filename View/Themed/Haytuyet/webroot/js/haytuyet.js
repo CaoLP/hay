@@ -95,6 +95,9 @@ $(document).ready(function () {
     if($('.play-btn').length !=0){
         fixCenter();
     }
+    $('#close-share-a').on('click',function(){
+        $('#video-share-a').hide();
+    });
     formatBodySize();
     fixCenterXSomeDiv('#player1','#video-share-a');
     fixCenterXSomeDiv('#video-iframe','#video-share-b');

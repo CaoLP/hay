@@ -137,9 +137,13 @@ if(isset($nextNprev['next']['Node']['url']))
                             </li>
                         </ul>
                     </div>
-                    <a href="<?php echo $prevVideo;?>" class="btn btn-success"><i
+                    <a href="<?php echo $prevVideo;?>" class="btn btn-success btn-sm"><i
                             class="fa fa-arrow-circle-o-left"></i> Clip trước</a>
-                    <a href="<?php echo $nextVideo;?>" class="btn btn-success">Clip tiếp theo <i
+
+                    <a href="javascript:;" id="close-share-a" class="btn btn-success btn-sm"><i
+                            class="fa fa-close"></i> Đóng</a>
+
+                    <a href="<?php echo $nextVideo;?>" class="btn btn-success btn-sm">Clip tiếp theo <i
                             class="fa fa-arrow-circle-o-right"></i></a>
                 </div>
 
@@ -158,6 +162,14 @@ if(isset($nextNprev['next']['Node']['url']))
         <?php
         }
         ?>
+    </div>
+    <div class="row" id="support-link">
+        <div class="col-md-12">
+            <a href="<?php echo $prevVideo;?>" class="btn btn-success pull-left btn-sm"><i
+                    class="fa fa-arrow-circle-o-left"></i> Clip trước</a>
+            <a href="<?php echo $nextVideo;?>" class="btn btn-success pull-right btn-sm">Clip tiếp theo <i
+                    class="fa fa-arrow-circle-o-right"></i></a>
+        </div>
     </div>
     <div class="row">
         <div class="view-info col-md-12">

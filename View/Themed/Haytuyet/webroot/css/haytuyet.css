@@ -244,14 +244,14 @@ section.block-feature-cover .info-container h3 {
 .video-img{
     width: 100%;
 }
-.view-title{
+.view-title {
     position: absolute;
     font-size: 20px;
     margin-top: 0px;
     background-color: rgba(255, 255, 255, 1);
     line-height: 1.5;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-bottom: 0px;
+    padding-top: 3px;
     width: 100%;
     z-index: 10;
 }
@@ -589,4 +589,15 @@ div#youtube_img{
 .y-img{
     display: inline-block;
     margin: 5px;
+}
+#support-link{
+    display: none;
+}
+@media(max-width: 650px){
+    .video-share{
+        display: none !important;
+    }
+    #support-link{
+        display: block;
+    }
 }
