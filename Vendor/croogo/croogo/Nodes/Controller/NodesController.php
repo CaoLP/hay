@@ -517,7 +517,7 @@ class NodesController extends NodesAppController
             foreach($new_nodes as $key=>$node){
                 $a = array(
                     'title'=>$node['Node']['title'],
-                    'path'=>$node['Node']['path'],
+                    'path'=> '/'.$node['Node']['type'].'/'.$node['Node']['slug'],
                     'image'=>$node['CustomFields']['image'],
                 );
                 $temp[] = $a;

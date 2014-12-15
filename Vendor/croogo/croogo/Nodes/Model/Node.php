@@ -771,6 +771,26 @@ class Node extends NodesAppModel
         }
         return $result;
     }
+    public function findRandomNodesOtherTest($limit, $type)
+    {
+//        $result = Cache::read('random', 'short_cache');
+//        if (!$result) {
+            $this->Behaviors->enabled('Publishable', true);
+            $this->belongsTo = array();
+            $this->hasOne = array();
+            $result = $this->find('all', array(
+                'fields' => 'Node.id,Node.title,Node.path,Node.type,Node.slug',
+                'conditions' => array(
+                    'Node.type' => $type,
+                    'Node.status ' => '1'
+                ),
+                'order' => 'RAND()',
+                'limit' => $limit
+            ));
+//            Cache::write('random2', $result, 'short_cache');
+//        }
+        return $result;
+    }
     public function findNextPrev($node_id)
     {
         $this->belongsTo = array();
