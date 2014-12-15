@@ -1,6 +1,6 @@
 var players = new Array();
-var counta=10;
-var countb=10;
+var counta=30;
+var countb=30;
 var countera;
 var counterb;
 $(document).ready(function () {
@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
     $('.video-modal').on('hidden.bs.modal', function () {
         players['video-iframe'].pauseVideo();
-        counta = countb = 10;
+        counta = countb = 30;
         clearInterval(countera);
         clearInterval(counterb);
 //        $('#video-iframe').attr('src', '');
@@ -193,7 +193,7 @@ function State1(state) {
         case 1:
             $('#top-center-a').hide();
             $('#video-share-a').hide();
-            counta = countb = 10;
+            counta = countb = 30;
             clearInterval(countera);
             clearInterval(counterb);
             break;
@@ -213,7 +213,7 @@ function State2(state) {
         case 1:
             $('#top-center-b').hide();
             $('#video-share-b').hide();
-            counta = countb = 10;
+            counta = countb = 30;
             clearInterval(countera);
             clearInterval(counterb);
             break;

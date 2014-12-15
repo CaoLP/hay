@@ -339,3 +339,11 @@ Cache::config ('short_cache', array (
     'serialize' => ($engine === 'File'),
     'prefix' => 'kao_short_cache_'
 ));
+
+Cache::config ('undead_cache', array (
+    'engine' => $engine,
+    'duration' => $duration,
+    'path' => CACHE . 'undead_cache' . DS,
+    'serialize' => ($engine === 'File'),
+    'prefix' => 'kao_undead_cache_'
+));
