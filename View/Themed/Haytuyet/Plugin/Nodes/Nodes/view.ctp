@@ -18,6 +18,8 @@ if(isset($nextNprev['next']['Node']['url']))
     <?php
     if($this->Session->read('Auth.User.role_id')==1){
         $this->Html->script(array('post'),array('inline'=>false));
+        echo $this->Html->css(array('bootstrap-tagsinput'),array('inline'=>false));
+        echo $this->Html->script(array('typeahead.bundle','bootstrap-tagsinput','tags'),array('inline'=>false));
         ?>
         <script>
             var youtube_id = '<?php echo $this->Nodes->field('CustomFields.youtube_clip');?>';
@@ -102,7 +104,21 @@ if(isset($nextNprev['next']['Node']['url']))
                 <hr>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+                <strong>Tags</strong>
+                <hr>
+<!--                http://timschlechter.github.io/bootstrap-tagsinput/examples/-->
+                <div class="input-group input-group-sm">
+                    <select class="form-control" multiple="multiple" type="text" id="tag-input"></select>
+                    <div class="input-group-btn">
+                        <a href="javascript:;" class="btn btn-success" id="tag-save">Lưu</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
     <?php
     }
     ?>

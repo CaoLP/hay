@@ -298,4 +298,67 @@ class TermsController extends TaxonomyAppController {
 		}
 	}
 
+    /**
+     * Admin index
+     *
+     * @param integer $vocabularyId
+     * @return void
+     * @access public
+     */
+    public function index($vocabularyId = null) {
+        $this->__ensureVocabularyIdExists($vocabularyId);
+
+        if($this->request->isAjax()){
+            $this->layout= 'ajax';
+//            echo '[ { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"    },
+//  { "value": 2 , "text": "London"      , "continent": "Europe"    },
+//  { "value": 3 , "text": "Paris"       , "continent": "Europe"    },
+//  { "value": 4 , "text": "Washington"  , "continent": "America"   },
+//  { "value": 5 , "text": "Mexico City" , "continent": "America"   },
+//  { "value": 6 , "text": "Buenos Aires", "continent": "America"   },
+//  { "value": 7 , "text": "Sydney"      , "continent": "Australia" },
+//  { "value": 8 , "text": "Wellington"  , "continent": "Australia" },
+//  { "value": 9 , "text": "Canberra"    , "continent": "Australia" },
+//  { "value": 10, "text": "Beijing"     , "continent": "Asia"      },
+//  { "value": 11, "text": "New Delhi"   , "continent": "Asia"      },
+//  { "value": 12, "text": "Kathmandu"   , "continent": "Asia"      },
+//  { "value": 13, "text": "Cairo"       , "continent": "Africa"    },
+//  { "value": 14, "text": "Cape Town"   , "continent": "Africa"    },
+//  { "value": 15, "text": "Kinshasa"    , "continent": "Africa"    }
+//]';
+            echo '[ "Amsterdam",
+  "London",
+  "Paris",
+  "Washington",
+  "New York",
+  "Los Angeles",
+  "Sydney",
+  "Melbourne",
+  "Canberra",
+  "Beijing",
+  "New Delhi",
+  "Kathmandu",
+  "Cairo",
+  "Cape Town",
+  "Kinshasa"
+]';
+            die;
+        }
+
+//        $vocabulary = $this->Term->Vocabulary->read(null, $vocabularyId);
+//        $defaultType = $this->__getDefaultType($vocabulary);
+//        $this->set('title_for_layout', __d('croogo', 'Vocabulary: %s', $vocabulary['Vocabulary']['title']));
+
+        $terms = $this->Term->find('byVocabulary', array('vocabulary_id' => $vocabularyId));
+        $this->set(compact('terms'));
+    }
+
+    public function add($vocabularyId = null) {
+        $this->__ensureVocabularyIdExists($vocabularyId);
+        if($this->request->isAjax()){
+            if ($this->Term->add($this->request->data, $vocabularyId)) {
+
+            }
+        }
+    }
 }

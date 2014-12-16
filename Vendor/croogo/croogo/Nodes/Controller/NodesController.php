@@ -291,6 +291,12 @@ class NodesController extends NodesAppController
         }
     }
 
+    public function admin_addtags($id=null)
+    {
+
+        die;
+    }
+
     /**
      * Admin add
      *
@@ -544,6 +550,11 @@ class NodesController extends NodesAppController
             } else {
                 $Node = $this->{$this->modelClass};
                 $this->paginate[$Node->alias]['order'] = $Node->escapeField($this->request->params['by']) . ' DESC';
+//                $this->paginate[$Node->alias]['order'] = array(
+//                    'Node.created' =>'DESC',
+////                    $Node->escapeField($this->request->params['by']) . ' DESC'
+//                   'Node.'.$this->request->params['by'] => 'DESC'
+//                );
                 $visibilityRolesField = $Node->escapeField('visibility_roles');
                 $this->paginate[$Node->alias]['conditions'] = array(
                     $Node->escapeField('status') => $Node->status(),
