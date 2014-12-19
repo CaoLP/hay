@@ -188,6 +188,11 @@ if(isset($nextNprev['next']['Node']['url']))
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <?php echo $this->Regions->blocks('region1'); ?>
+        </div>
+    </div>
+    <div class="row">
         <div class="view-info col-md-12">
             <?php
             $type = $types_for_layout[$this->Nodes->field('type')];
@@ -227,11 +232,7 @@ if(isset($nextNprev['next']['Node']['url']))
     <div class="fb-like" data-href="<?php echo $this->Html->url($this->Nodes->field('url'), true) ?>"
          data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
     </p>
-    <div class="row">
-        <div class="col-md-12">
-            <?php echo $this->Regions->blocks('region1'); ?>
-        </div>
-    </div>
+
     <?php if (CakePlugin::loaded('Comments')): ?>
         <div class="row">
             <div id="comments" class="node-comments col-md-12">
