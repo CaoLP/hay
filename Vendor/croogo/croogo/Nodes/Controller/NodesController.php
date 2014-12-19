@@ -274,6 +274,7 @@ class NodesController extends NodesAppController
             $saveData = array('Node'=>array(
                 'id' => $id,
                 'status'=>1,
+                'created'=> date('Y-m-d H:i:s'),
             ));
             $title = $Node->field('title');
             $receive_id = $Node->field('user_id');
