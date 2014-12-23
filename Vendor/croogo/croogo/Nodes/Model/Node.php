@@ -798,7 +798,10 @@ class Node extends NodesAppModel
         $this->hasOne = array();
         $this->id = $node_id;
         $result = $this->find('neighbors', array(
-            'fields' => 'Node.id,Node.path,Node.type,Node.slug'
+            'fields' => 'Node.id,Node.path,Node.type,Node.slug',
+            'conditions' =>array(
+                'Node.status ' => '1'
+            )
         ));
         return $result;
     }

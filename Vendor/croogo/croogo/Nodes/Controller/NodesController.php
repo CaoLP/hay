@@ -551,6 +551,7 @@ class NodesController extends NodesAppController
             } else {
                 $Node = $this->{$this->modelClass};
                 $this->paginate[$Node->alias]['order'] = $Node->escapeField($this->request->params['by']) . ' DESC';
+
 //                $this->paginate[$Node->alias]['order'] = array(
 //                    'Node.created' =>'DESC',
 ////                    $Node->escapeField($this->request->params['by']) . ' DESC'
@@ -564,7 +565,10 @@ class NodesController extends NodesAppController
                         $visibilityRolesField . ' LIKE' => '%"' . $this->Croogo->roleId() . '"%',
                     ),
                 );
-
+                if(in_array($this->request->params['by'],array('likes','counts','comments'))){
+                    $this->paginate[$Node->alias]['conditions']['Node.created >='] =  date('Y-m-01').' 00:00:00';;
+                    $this->paginate[$Node->alias]['conditions']['Node.created <='] =  date('Y-m-t').' 23:59:59';
+                }
                 if (isset($this->request->params['named']['limit'])) {
                     $limit = $this->request->params['named']['limit'];
                 } else {
@@ -973,7 +977,11 @@ class NodesController extends NodesAppController
                 'type' => $this->request->params['named']['type'],
                 'roleId' => $this->Croogo->roleId(),
             ));
-            $node_id = $node['Node']['id'];
+            if(isset($node['Node']['id'])){
+                $node_id = $node['Node']['id'];
+            }else{
+                return $this->redirect('/');
+            }
         } elseif ($id == null) {
             $this->Session->setFlash(__d('croogo', 'Invalid content'), 'flash', array('class' => 'error'));
             return $this->redirect('/');
