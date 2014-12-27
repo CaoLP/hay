@@ -105,6 +105,16 @@
     })();
 </script>
 
+<script type='text/javascript'>
+    googletag.cmd.push(function() {
+        googletag.defineSlot('/29077761/ht300x600', [300, 600], 'div-gpt-ad-1415977702887-0').addService(googletag.pubads());
+        googletag.defineSlot('/29077761/ht336x280', [336, 280], 'div-gpt-ad-1415977702887-1').addService(googletag.pubads());
+        googletag.defineSlot('/29077761/ht728x90', [728, 90], 'div-gpt-ad-1415977702887-2').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+    });
+</script>
+
 
 <?php echo $this->element('top_nav') ?>
 <div class="container-fluid main">

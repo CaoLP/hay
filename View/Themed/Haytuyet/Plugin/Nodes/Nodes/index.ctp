@@ -38,6 +38,15 @@
                         ?>
                         <?php
                         echo $this->Nodes->body();
+                        if ($count == 0) {
+                            ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php echo $this->Regions->blocks('region1'); ?>
+                                </div>
+                            </div>
+                        <?php
+                        }
                         ?>
                         <div class="title">
                             <h2><a href="<?php echo $this->Html->url($this->Nodes->field('url')); ?>"
