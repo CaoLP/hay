@@ -8,6 +8,7 @@
 <div class="badge-item-vote-container post-afterbar-a in-list-view  ">
     <div class="vote">
         <div class="pull-left">
+            <div class="hide-me"></div>
             <div class="fb-like" data-href="https://www.facebook.com/haytuyetcom" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
         </div>
         <ul class="btn-vote text-center pull-right">

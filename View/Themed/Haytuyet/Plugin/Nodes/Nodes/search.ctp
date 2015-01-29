@@ -67,6 +67,7 @@
                                 được cười nhiều hơn</h3>
 
                             <div class="like-haytyet">
+                                <div class="hide-me"></div>
                                 <div class="fb-like" data-href="http://www.facebook.com/haytuyetcom"
                                      data-layout="standard" data-action="like" data-show-faces="false"
                                      data-share="false"></div>

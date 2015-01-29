@@ -135,6 +135,13 @@ if(isset($nextNprev['next']['Node']['url']))
                         frameborder="0"
                         width="560"
                         height="315" allowfullscreen></iframe>
+                <div>
+                    <iframe id="tempFrame" style="
+                border:none;
+                background: url('<?php echo $this->Nodes->field('CustomFields.image');?>') no-repeat;
+                background-size: 100%;
+                background-position-y: 50%;" src="/webroot/testpage.php"></iframe>
+                </div>
                 <div class="badge-item-vote-container post-afterbar-a in-list-view video-share text-center"
                      id="video-share-a">
                     <div class="share right">

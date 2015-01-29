@@ -601,3 +601,9 @@ div#youtube_img{
         display: block;
     }
 }
+.hide-me{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 10;
+}

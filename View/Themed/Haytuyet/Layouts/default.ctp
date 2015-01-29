@@ -166,6 +166,7 @@ echo $this->Html->script(array(
     'bootswatch',
     '//www.youtube.com/iframe_api',
     'haytuyet',
+    'play',
 ));
 if ($this->Session->read('Auth.User')){
     echo $this->Html->script(array('message'));
